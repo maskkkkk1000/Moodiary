@@ -1,0 +1,18 @@
+<resources>
+    <string name="editor_could_not_preserve_draft">无法保存草稿：%1$s</string>
+    <string name="editor_entry_no_longer_exists">这条日记已不存在</string>
+    <string name="editor_photo_limit">每条日记最多可添加 12 张照片</string>
+    <string name="editor_attached_photo_missing">一张附加照片已丢失。请先移除或重新选择该照片，再保存日记。</string>
+    <string name="editor_choose_mood">请选择心情</string>
+    <string name="editor_entry_removed_keep_draft">这条日记已被删除。放弃草稿前，请先复制其中的笔记。</string>
+    <string name="editor_could_not_open_entry">无法打开日记</string>
+    <string name="editor_could_not_import_photos">无法导入照片</string>
+    <string name="editor_could_not_save_entry">无法保存日记</string>
+    <string name="editor_could_not_discard_draft">无法丢弃草稿</string>
+    <string name="editor_nonexistent_time">由于夏令时切换，这个当地时间不存在。请选择其他时间。</string>
+    <string name="editor_invalid_date_time">请输入有效的日期和时间，格式为 YYYY-MM-DDTHH:MM。</string>
+    <string name="editor_unreadable_draft">无法读取已保存的草稿，草稿文件仍保留在此设备上。</string>
+    <string name="editor_invalid_draft_cleanup_stopped">草稿无效，已停止清理照片</string>
+    <string name="editor_invalid_draft_photo_reference">已保存草稿中的照片引用无效</string>
+    <string name="editor_recovery_required">请先完成上次中断恢复的回滚，再修改或导出日记。</string>
+</resources>

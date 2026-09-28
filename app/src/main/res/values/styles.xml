@@ -1,0 +1,1 @@
+<resources><style name="Theme.Moodiary" parent="Theme.AppCompat.DayNight.NoActionBar"><item name="android:fontFamily">sans</item><item name="android:windowLightStatusBar">false</item><item name="android:colorAccent">#326A5F</item></style></resources>

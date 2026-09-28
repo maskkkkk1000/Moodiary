@@ -1,0 +1,36 @@
+<resources>
+    <string name="data_tools_done">已完成</string>
+    <string name="data_tools_operation_failed">操作失败</string>
+    <string name="data_tools_backup_saved">备份已保存</string>
+    <string name="data_tools_backup_validated">备份校验通过，请查看下方的数据替换说明</string>
+    <string name="data_tools_folder_selected">已选择自动备份文件夹</string>
+    <string name="data_tools_drive_connected">已连接 Google Drive</string>
+    <string name="data_tools_drive_sign_in_failed">Google Drive 登录失败：%1$s。请为本应用 ID 和签名证书配置 Android OAuth 客户端。</string>
+    <string name="data_tools_choose_folder">选择备份文件夹</string>
+    <string name="data_tools_change_folder">更换备份文件夹</string>
+    <string name="data_tools_choose_destination_first">请先选择文件夹或连接 Google Drive</string>
+    <string name="data_tools_last_success">上次备份成功时间：%1$s</string>
+    <string name="data_tools_last_error">上次自动备份错误：%1$s</string>
+    <string name="data_tools_drive_authorization_failed">Google Drive 授权失败：%1$s。请检查 Android OAuth 客户端和签名证书。</string>
+    <string name="data_tools_reconnect_drive">重新连接 Google Drive</string>
+    <string name="data_tools_connect_drive">连接 Google Drive</string>
+    <string name="data_tools_uploaded_drive">已上传至 Google Drive</string>
+    <string name="data_tools_drive_backups_loaded">已加载 Google Drive 备份</string>
+    <string name="data_tools_drive_backup_validated">Google Drive 备份校验通过</string>
+    <string name="data_tools_restore_cloud_item">恢复 %1$s · %2$s</string>
+    <string name="data_tools_restore_completed">恢复完成</string>
+    <string name="data_tools_restore_confirmation">来自 %1$s 的备份已通过校验，包含 %2$d 条日记和 %3$d 张照片。当前所有日记、自定义设置和目标都将被替换。如需保留，请先创建备份。设备上的 PIN 将保留；自动备份将被关闭。</string>
+    <string name="data_tools_export_saved">导出文件已保存</string>
+    <string name="data_tools_format">格式</string>
+    <string name="data_tools_json_description">完整结构化数据，包含托管照片的引用。如需迁移照片并恢复日记，请使用完整备份。</string>
+    <string name="data_tools_csv_description">UTF-8 编码的 CSV 文件。Activities 单元格中包含 JSON 数组。可能被电子表格解释为公式的文本会加上英文单引号前缀。</string>
+    <string name="data_tools_pdf_description">分页报告，包含摘要、活动次数、笔记，以及可选的照片。</string>
+    <string name="data_tools_range">范围</string>
+    <string name="data_tools_seven_days">最近 7 天</string>
+    <string name="data_tools_thirty_days">最近 30 天</string>
+    <string name="data_tools_current_month">本月</string>
+    <string name="data_tools_custom">自定义</string>
+    <string name="data_tools_all">全部</string>
+    <string name="data_tools_end_date_after_start">结束日期不能早于开始日期</string>
+    <string name="data_tools_invalid_range">日期范围无效</string>
+</resources>

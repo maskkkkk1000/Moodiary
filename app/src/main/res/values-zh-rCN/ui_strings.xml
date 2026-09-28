@@ -1,0 +1,138 @@
+<resources>
+    <string name="ui_calendar_scroll_hint" formatted="false">左右滑动可查看一周的所有日期。</string>
+    <string name="ui_your_data_in_your_hands" formatted="false">你的数据，由你掌握</string>
+    <string name="ui_backups_contain_notes_photos_and_settings_store_them_somewhe" formatted="false">备份包含笔记、照片和设置，请妥善存放。ZIP 文件未加密，其中不包含 PIN 码和账号凭据。</string>
+    <string name="ui_create_local_backup" formatted="false">创建本地备份</string>
+    <string name="ui_select_backup_to_restore" formatted="false">选择要恢复的备份</string>
+    <string name="ui_archive_limits_2_gb_total_64_mb_structured_data_32_mb_per_ph" formatted="false">备份大小限制：总计 2 GB，结构化数据 64 MB，每张照片 32 MB。恢复时会将照片暂存到设备，需要有足够空间容纳原日记、回滚备份和待恢复的照片。</string>
+    <string name="ui_automatic_backup" formatted="false">自动备份</string>
+    <string name="ui_runs_approximately_daily_when_battery_and_storage_allow_the_" formatted="false">电量和存储空间充足时，大约每天备份一次。保留最近七份成功的自动备份。</string>
+    <string name="ui_enable_daily_automatic_backup" formatted="false">启用每日自动备份</string>
+    <string name="ui_optional_google_drive" formatted="false">Google 云端硬盘（可选）</string>
+    <string name="ui_cloud_backup_is_off_until_you_connect_an_account_local_featu" formatted="false">连接账号后才会启用云端备份。无需连接账号也能使用所有本地功能。</string>
+    <string name="ui_back_up_to_drive_now" formatted="false">立即备份到云端硬盘</string>
+    <string name="ui_include_drive_in_automatic_backup" formatted="false">自动备份时同步到云端硬盘</string>
+    <string name="ui_list_drive_backups" formatted="false">查看云端硬盘备份</string>
+    <string name="ui_disconnect_drive" formatted="false">断开云端硬盘连接</string>
+    <string name="ui_replace_this_journal" formatted="false">替换当前日记？</string>
+    <string name="ui_replace_local_data" formatted="false">替换本地数据</string>
+    <string name="ui_cancel" formatted="false">取消</string>
+    <string name="ui_export_your_journal" formatted="false">导出日记</string>
+    <string name="ui_from_date" formatted="false">开始日期</string>
+    <string name="ui_through_date" formatted="false">结束日期</string>
+    <string name="ui_include_photos" formatted="false">包含照片</string>
+    <string name="ui_save_export" formatted="false">保存导出文件</string>
+    <string name="ui_how_are_you_feeling" formatted="false">此刻心情如何？</string>
+    <string name="ui_what_was_part_of_this_moment" formatted="false">这一刻，你做了什么？</string>
+    <string name="ui_your_note" formatted="false">写下你的想法</string>
+    <string name="ui_add_a_prompt" formatted="false">添加写作提示</string>
+    <string name="ui_date_and_time" formatted="false">日期与时间</string>
+    <string name="ui_yyyy_mm_ddthh_mm_device_timezone" formatted="false">YYYY-MM-DDTHH:MM · 设备时区</string>
+    <string name="ui_add_photos" formatted="false">添加照片</string>
+    <string name="ui_remove_photo" formatted="false">移除照片</string>
+    <string name="ui_leave_this_draft" formatted="false">放弃这份草稿？</string>
+    <string name="ui_unsaved_changes_will_be_discarded" formatted="false">未保存的修改将被丢弃。</string>
+    <string name="ui_discard_draft" formatted="false">放弃草稿</string>
+    <string name="ui_keep_writing" formatted="false">继续编写</string>
+    <string name="ui_close_photo" formatted="false">关闭照片</string>
+    <string name="ui_edit_entry" formatted="false">编辑记录</string>
+    <string name="ui_delete" formatted="false">删除</string>
+    <string name="ui_delete_this_entry" formatted="false">删除这条记录？</string>
+    <string name="ui_its_note_and_photo_links_will_be_removed_this_cannot_be_undo" formatted="false">这条记录的笔记和照片关联将被移除，且无法撤销。</string>
+    <string name="ui_delete_entry" formatted="false">删除记录</string>
+    <string name="ui_keep_entry" formatted="false">保留记录</string>
+    <string name="ui_your_moments" formatted="false">你的生活片刻</string>
+    <string name="ui_a_private_space_for_the_shape_of_your_days" formatted="false">在私密空间里，记录每一天的模样。</string>
+    <string name="ui_search_notes_or_activities" formatted="false">搜索笔记或活动</string>
+    <string name="ui_from_date_yyyy_mm_dd" formatted="false">开始日期（YYYY-MM-DD）</string>
+    <string name="ui_through_date_yyyy_mm_dd" formatted="false">结束日期（YYYY-MM-DD）</string>
+    <string name="ui_enter_a_valid_date_range" formatted="false">请输入有效的日期范围</string>
+    <string name="ui_clear_filters" formatted="false">清除筛选</string>
+    <string name="ui_the_days_together" formatted="false">日子连成风景</string>
+    <string name="ui_previous" formatted="false">上个月</string>
+    <string name="ui_next" formatted="false">下个月</string>
+    <string name="ui_today" formatted="false">今天</string>
+    <string name="ui_add_entry_on_this_day" formatted="false">为这一天添加记录</string>
+    <string name="ui_no_moments_recorded_on_this_day" formatted="false">这一天还没有记录。</string>
+    <string name="ui_make_it_yours" formatted="false">打造你的专属日记</string>
+    <string name="ui_add" formatted="false">添加</string>
+    <string name="ui_nothing_here_yet_add_your_first_item" formatted="false">这里还没有内容，添加第一项吧。</string>
+    <string name="ui_edit" formatted="false">编辑</string>
+    <string name="ui_move_up" formatted="false">上移</string>
+    <string name="ui_delete_important_day" formatted="false">删除这个重要日子？</string>
+    <string name="ui_journal_entries_on_this_date_will_be_kept" formatted="false">这一天的日记记录会被保留。</string>
+    <string name="ui_name" formatted="false">名称</string>
+    <string name="ui_icon_or_emoji" formatted="false">图标或表情符号</string>
+    <string name="ui_mood_score_0_10" formatted="false">心情分值</string>
+    <string name="ui_changes_apply_to_new_entries_existing_mood_snapshots_are_pre" formatted="false">修改仅应用于新记录，已有记录的心情快照会被保留。</string>
+    <string name="ui_color_aarrggbb_hex" formatted="false">颜色（十六进制 AARRGGBB）</string>
+    <string name="ui_date_yyyy_mm_dd" formatted="false">日期（YYYY-MM-DD）</string>
+    <string name="ui_save" formatted="false">保存</string>
+    <string name="ui_goal_name" formatted="false">目标名称</string>
+    <string name="ui_days_per_week_1_7" formatted="false">每周天数（1–7）</string>
+    <string name="ui_at_most_one_completion_per_local_date" formatted="false">每个本地日期最多计为完成一次。</string>
+    <string name="ui_start_date" formatted="false">开始日期</string>
+    <string name="ui_end_date_optional" formatted="false">结束日期（可选）</string>
+    <string name="ui_save_goal" formatted="false">保存目标</string>
+    <string name="ui_your_private_space" formatted="false">你的私密空间</string>
+    <string name="ui_enter_your_pin_to_open_moodiary" formatted="false">输入 PIN 码以打开 Moodiary。</string>
+    <string name="ui_pin" formatted="false">PIN 码</string>
+    <string name="ui_unlock" formatted="false">解锁</string>
+    <string name="ui_use_biometrics" formatted="false">使用生物识别</string>
+    <string name="ui_privacy_lock" formatted="false">隐私锁</string>
+    <string name="ui_your_pin_is_salted_and_hashed_on_this_device_the_app_lock_su" formatted="false">PIN 码在此设备上经过加盐哈希处理后存储。应用锁是设备锁的补充，不会加密日记数据库。</string>
+    <string name="ui_allow_biometric_unlock" formatted="false">允许生物识别解锁</string>
+    <string name="ui_set_up_a_strong_biometric_in_android_device_settings_to_enab" formatted="false">请先在 Android 设备设置中设置符合强安全级别的生物识别方式，以启用此选项。</string>
+    <string name="ui_pins_are_never_included_in_backups_a_fresh_process_always_re" formatted="false">备份中不会包含 PIN 码。应用进程重新启动后始终需要解锁。没有隐藏的恢复 PIN 码，请妥善备份日记。</string>
+    <string name="ui_pin_settings" formatted="false">PIN 码设置</string>
+    <string name="ui_current_pin" formatted="false">当前 PIN 码</string>
+    <string name="ui_new_pin_6_12_digits" formatted="false">新 PIN 码（6–12 位数字）</string>
+    <string name="ui_confirm_new_pin" formatted="false">确认新 PIN 码</string>
+    <string name="ui_to_remove_the_lock_enter_your_current_pin_and_leave_the_new_" formatted="false">若要移除应用锁，请输入当前 PIN 码，并将新 PIN 码留空。</string>
+    <string name="ui_appearance" formatted="false">外观</string>
+    <string name="ui_a_gentle_nudge" formatted="false">温柔的提醒</string>
+    <string name="ui_reminders_follow_your_local_timezone_android_may_delay_them_" formatted="false">提醒使用设备的本地时区。Android 可能为节省电量而延迟提醒，无法保证精确到分钟送达。</string>
+    <string name="ui_add_reminder" formatted="false">添加提醒</string>
+    <string name="ui_allow_notifications" formatted="false">允许通知</string>
+    <string name="ui_no_reminders_scheduled" formatted="false">尚未设置提醒。</string>
+    <string name="ui_enabled" formatted="false">已启用</string>
+    <string name="ui_reminder" formatted="false">提醒</string>
+    <string name="ui_message" formatted="false">提醒内容</string>
+    <string name="ui_hour" formatted="false">小时</string>
+    <string name="ui_minute" formatted="false">分钟</string>
+    <string name="ui_save_reminder" formatted="false">保存提醒</string>
+    <string name="ui_delete_reminder" formatted="false">删除这条提醒？</string>
+    <string name="ui_patterns_with_perspective" formatted="false">换个角度，看见规律</string>
+    <string name="ui_record_a_few_moments_to_start_exploring_your_patterns" formatted="false">记录一些生活片刻，开始发现自己的规律。</string>
+    <string name="ui_daily_mood_trend" formatted="false">每日心情趋势</string>
+    <string name="ui_lines_join_consecutive_recorded_days_only" formatted="false">仅连续有记录的日期会连线。</string>
+    <string name="ui_mood_distribution" formatted="false">心情分布</string>
+    <string name="ui_activity_frequency" formatted="false">活动频率</string>
+    <string name="ui_same_entry_associations" formatted="false">同条记录中的关联</string>
+    <string name="ui_comparisons_describe_your_records_they_do_not_show_that_an_a" formatted="false">比较结果仅描述你的记录，不能说明某项活动会导致心情变化。</string>
+    <string name="ui_next_day_associations" formatted="false">次日心情关联</string>
+    <string name="ui_each_recorded_source_day_counts_once_only_the_immediately_fo" formatted="false">每个有记录的起始日期只计一次，且仅使用紧接着的次日记录。两天都必须位于所选范围内。缺失的日期会被排除，不会被视为心情中性。</string>
+    <string name="ui_weekday_mood_averages" formatted="false">每周各日平均心情</string>
+    <string name="ui_activities_alongside_each_mood" formatted="false">不同心情下的活动</string>
+    <string name="ui_activity_combinations" formatted="false">活动组合</string>
+    <string name="ui_confidence_is_a_sample_size_heuristic_not_statistical_certai" formatted="false">可信度仅根据样本量作参考判断，并不代表统计确定性：少于 5 为样本不足，5–14 为低，15–29 为中，30 及以上为高。比较时以两组中较小的样本量为准。每条记录都会保存当时的心情分值，后续自定义不会改写历史。</string>
+    <string name="ui_small_steps" formatted="false">一点点，向前走</string>
+    <string name="ui_new_goal" formatted="false">新建目标</string>
+    <string name="ui_completion_date_yyyy_mm_dd" formatted="false">完成日期（YYYY-MM-DD）</string>
+    <string name="ui_daily_streaks_count_scheduled_days_weekly_count_streaks_coun" formatted="false">每日目标按计划日期计算连续完成天数；每周次数目标按达标周计算连续完成周数。</string>
+    <string name="ui_choose_something_you_would_like_to_make_time_for" formatted="false">选一件你想为之留出时间的事。</string>
+    <string name="ui_your_journal_grows" formatted="false">你的日记在成长</string>
+    <string name="ui_a_quiet_acknowledgement_of_the_time_you_give_yourself" formatted="false">为你留给自己的时间，记下一份小小的肯定。</string>
+    <string name="ui_moodiary" formatted="false">Moodiary</string>
+    <string name="ui_back" formatted="false">返回</string>
+    <string name="ui_opening_your_journal" formatted="false">正在打开日记…</string>
+    <string name="ui_retry_opening_journal" formatted="false">重新打开日记</string>
+    <string name="ui_data_integrity" formatted="false">数据完整性</string>
+    <string name="ui_check_data_integrity" formatted="false">检查数据完整性</string>
+    <string name="ui_clean_abandoned_photo_imports" formatted="false">清理未使用的导入照片</string>
+    <string name="ui_no_advertising_tracking_or_mandatory_account_journal_content" formatted="false">没有广告、追踪或强制注册。只有在你主动导出或启用备份时，日记内容才会离开此设备。</string>
+    <string name="ui_statistics_methodology" formatted="false">统计方法说明</string>
+    <string name="ui_entries_retain_their_mood_score_when_you_customize_moods_tre" formatted="false">自定义心情不会改变已有记录的心情分值。趋势图使用本地每一天内所有记录的平均值。活动频率按记录条数计算，活动出现天数另行统计。同条记录关联比较包含与不包含某项活动时的平均心情。次日分析比较有、无某项活动的记录日期之后，次日的每日平均心情；每个日期只计一次。缺少次日记录时会跳过，两个日期都必须位于所选范围内。这些结果是观察性关联，并非因果关系。样本可信度基于两组中较小的样本量作参考判断，并非正式的置信区间。</string>
+    <string name="ui_dates_and_privacy" formatted="false">日期与隐私</string>
+    <string name="ui_entry_timestamps_are_absolute_instants_shown_in_the_current_" formatted="false">记录的时间戳代表绝对时刻，并按设备当前时区显示。旅行或更改时区可能使记录显示在另一个本地日期。按日设置的目标和重要日期会保留原日历日期，关联活动的完成状态会重新计算。备份为带版本信息的 ZIP 文件，未经加密，不包含 PIN 码和账号凭据。应用锁是 Android 设备安全保护的补充。</string>
+</resources>

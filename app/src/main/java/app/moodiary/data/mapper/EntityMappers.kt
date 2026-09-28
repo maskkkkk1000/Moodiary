@@ -1,0 +1,29 @@
+package app.moodiary.data.mapper
+
+import app.moodiary.core.database.*
+import app.moodiary.domain.*
+
+fun Mood.entity() = MoodEntity(id, name, score, color, icon, sortOrder, isArchived, createdAt, updatedAt)
+fun MoodEntity.model() = Mood(id, name, score, color, icon, sortOrder, isArchived, createdAt, updatedAt)
+fun ActivityGroup.entity() = ActivityGroupEntity(id, name, sortOrder, isArchived, createdAt, updatedAt)
+fun ActivityGroupEntity.model() = ActivityGroup(id, name, sortOrder, isArchived, createdAt, updatedAt)
+fun Activity.entity() = ActivityEntity(id, groupId, name, icon, color, sortOrder, isArchived, createdAt, updatedAt)
+fun ActivityEntity.model() = Activity(id, groupId, name, icon, color, sortOrder, isArchived, createdAt, updatedAt)
+fun Entry.entity() = EntryEntity(id, timestamp, moodId, note, moodName, moodScore, moodColor, moodIcon, createdAt, updatedAt)
+fun EntryEntity.model() = Entry(id, timestamp, moodId, note, moodName, moodScore, moodColor, moodIcon, createdAt, updatedAt)
+fun EntryActivity.entity() = EntryActivityEntity(entryId, activityId)
+fun EntryActivityEntity.model() = EntryActivity(entryId, activityId)
+fun EntryPhoto.entity() = EntryPhotoEntity(id, entryId, localPath, sortOrder, createdAt)
+fun EntryPhotoEntity.model() = EntryPhoto(id, entryId, localPath, sortOrder, createdAt)
+fun Goal.entity() = GoalEntity(id, name, linkedActivityId, goalType.name, targetCount, startDate, endDate, isArchived, createdAt, updatedAt)
+fun GoalEntity.model() = Goal(id, name, linkedActivityId, GoalType.valueOf(goalType), targetCount, startDate, endDate, isArchived, createdAt, updatedAt)
+fun GoalSchedule.entity() = GoalScheduleEntity(goalId, dayOfWeek)
+fun GoalScheduleEntity.model() = GoalSchedule(goalId, dayOfWeek)
+fun GoalCompletion.entity() = GoalCompletionEntity(id, goalId, date, completedAt, source.name)
+fun GoalCompletionEntity.model() = GoalCompletion(id, goalId, date, completedAt, CompletionSource.valueOf(source))
+fun Reminder.entity() = ReminderEntity(id, type.name, targetId, hour, minute, daysOfWeek.sorted().joinToString(","), message, enabled, createdAt, updatedAt)
+fun ReminderEntity.model() = Reminder(id, ReminderType.valueOf(type), targetId, hour, minute, daysOfWeek.split(',').filter { it.isNotBlank() }.map { it.toInt() }.toSet(), message, enabled, createdAt, updatedAt)
+fun NoteTemplate.entity() = NoteTemplateEntity(id, name, content, sortOrder, isArchived)
+fun NoteTemplateEntity.model() = NoteTemplate(id, name, content, sortOrder, isArchived)
+fun ImportantDay.entity() = ImportantDayEntity(id, date, title, icon, note)
+fun ImportantDayEntity.model() = ImportantDay(id, date, title, icon, note)

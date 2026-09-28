@@ -1,0 +1,138 @@
+<resources>
+    <string name="ui_calendar_scroll_hint" formatted="false">Swipe sideways to see every weekday.</string>
+    <string name="ui_your_data_in_your_hands" formatted="false">Your data, in your hands</string>
+    <string name="ui_backups_contain_notes_photos_and_settings_store_them_somewhe" formatted="false">Backups contain notes, photos and settings. Store them somewhere private. The ZIP is not encrypted; your PIN and account credentials are excluded.</string>
+    <string name="ui_create_local_backup" formatted="false">Create local backup</string>
+    <string name="ui_select_backup_to_restore" formatted="false">Select backup to restore</string>
+    <string name="ui_archive_limits_2_gb_total_64_mb_structured_data_32_mb_per_ph" formatted="false">Archive limits: 2 GB total, 64 MB structured data, 32 MB per photo. Restore stages media on disk and requires room for the old journal, rollback archive and incoming photos.</string>
+    <string name="ui_automatic_backup" formatted="false">Automatic backup</string>
+    <string name="ui_runs_approximately_daily_when_battery_and_storage_allow_the_" formatted="false">Runs approximately daily when battery and storage allow. The seven latest successful automatic backups are retained.</string>
+    <string name="ui_enable_daily_automatic_backup" formatted="false">Enable daily automatic backup</string>
+    <string name="ui_optional_google_drive" formatted="false">Optional Google Drive</string>
+    <string name="ui_cloud_backup_is_off_until_you_connect_an_account_local_featu" formatted="false">Cloud backup is off until you connect an account. Local features work without it.</string>
+    <string name="ui_back_up_to_drive_now" formatted="false">Back up to Drive now</string>
+    <string name="ui_include_drive_in_automatic_backup" formatted="false">Include Drive in automatic backup</string>
+    <string name="ui_list_drive_backups" formatted="false">List Drive backups</string>
+    <string name="ui_disconnect_drive" formatted="false">Disconnect Drive</string>
+    <string name="ui_replace_this_journal" formatted="false">Replace this journal?</string>
+    <string name="ui_replace_local_data" formatted="false">Replace local data</string>
+    <string name="ui_cancel" formatted="false">Cancel</string>
+    <string name="ui_export_your_journal" formatted="false">Export your journal</string>
+    <string name="ui_from_date" formatted="false">From date</string>
+    <string name="ui_through_date" formatted="false">Through date</string>
+    <string name="ui_include_photos" formatted="false">Include photos</string>
+    <string name="ui_save_export" formatted="false">Save export</string>
+    <string name="ui_how_are_you_feeling" formatted="false">How are you feeling?</string>
+    <string name="ui_what_was_part_of_this_moment" formatted="false">What was part of this moment?</string>
+    <string name="ui_your_note" formatted="false">Your note</string>
+    <string name="ui_add_a_prompt" formatted="false">Add a prompt</string>
+    <string name="ui_date_and_time" formatted="false">Date and time</string>
+    <string name="ui_yyyy_mm_ddthh_mm_device_timezone" formatted="false">YYYY-MM-DDTHH:MM · device timezone</string>
+    <string name="ui_add_photos" formatted="false">Add photos</string>
+    <string name="ui_remove_photo" formatted="false">Remove photo</string>
+    <string name="ui_leave_this_draft" formatted="false">Leave this draft?</string>
+    <string name="ui_unsaved_changes_will_be_discarded" formatted="false">Unsaved changes will be discarded.</string>
+    <string name="ui_discard_draft" formatted="false">Discard draft</string>
+    <string name="ui_keep_writing" formatted="false">Keep writing</string>
+    <string name="ui_close_photo" formatted="false">Close photo</string>
+    <string name="ui_edit_entry" formatted="false">Edit entry</string>
+    <string name="ui_delete" formatted="false">Delete</string>
+    <string name="ui_delete_this_entry" formatted="false">Delete this entry?</string>
+    <string name="ui_its_note_and_photo_links_will_be_removed_this_cannot_be_undo" formatted="false">Its note and photo links will be removed. This cannot be undone.</string>
+    <string name="ui_delete_entry" formatted="false">Delete entry</string>
+    <string name="ui_keep_entry" formatted="false">Keep entry</string>
+    <string name="ui_your_moments" formatted="false">Your moments</string>
+    <string name="ui_a_private_space_for_the_shape_of_your_days" formatted="false">A private space for the shape of your days.</string>
+    <string name="ui_search_notes_or_activities" formatted="false">Search notes or activities</string>
+    <string name="ui_from_date_yyyy_mm_dd" formatted="false">From date (YYYY-MM-DD)</string>
+    <string name="ui_through_date_yyyy_mm_dd" formatted="false">Through date (YYYY-MM-DD)</string>
+    <string name="ui_enter_a_valid_date_range" formatted="false">Enter a valid date range</string>
+    <string name="ui_clear_filters" formatted="false">Clear filters</string>
+    <string name="ui_the_days_together" formatted="false">The days, together</string>
+    <string name="ui_previous" formatted="false">Previous</string>
+    <string name="ui_next" formatted="false">Next</string>
+    <string name="ui_today" formatted="false">Today</string>
+    <string name="ui_add_entry_on_this_day" formatted="false">Add entry on this day</string>
+    <string name="ui_no_moments_recorded_on_this_day" formatted="false">No moments recorded on this day.</string>
+    <string name="ui_make_it_yours" formatted="false">Make it yours</string>
+    <string name="ui_add" formatted="false">Add</string>
+    <string name="ui_nothing_here_yet_add_your_first_item" formatted="false">Nothing here yet. Add your first item.</string>
+    <string name="ui_edit" formatted="false">Edit</string>
+    <string name="ui_move_up" formatted="false">Move up</string>
+    <string name="ui_delete_important_day" formatted="false">Delete important day?</string>
+    <string name="ui_journal_entries_on_this_date_will_be_kept" formatted="false">Journal entries on this date will be kept.</string>
+    <string name="ui_name" formatted="false">Name</string>
+    <string name="ui_icon_or_emoji" formatted="false">Icon or emoji</string>
+    <string name="ui_mood_score_0_10" formatted="false">Mood score</string>
+    <string name="ui_changes_apply_to_new_entries_existing_mood_snapshots_are_pre" formatted="false">Changes apply to new entries. Existing mood snapshots are preserved.</string>
+    <string name="ui_color_aarrggbb_hex" formatted="false">Color (AARRGGBB hex)</string>
+    <string name="ui_date_yyyy_mm_dd" formatted="false">Date (YYYY-MM-DD)</string>
+    <string name="ui_save" formatted="false">Save</string>
+    <string name="ui_goal_name" formatted="false">Goal name</string>
+    <string name="ui_days_per_week_1_7" formatted="false">Days per week (1–7)</string>
+    <string name="ui_at_most_one_completion_per_local_date" formatted="false">At most one completion per local date.</string>
+    <string name="ui_start_date" formatted="false">Start date</string>
+    <string name="ui_end_date_optional" formatted="false">End date (optional)</string>
+    <string name="ui_save_goal" formatted="false">Save goal</string>
+    <string name="ui_your_private_space" formatted="false">Your private space</string>
+    <string name="ui_enter_your_pin_to_open_moodiary" formatted="false">Enter your PIN to open Moodiary.</string>
+    <string name="ui_pin" formatted="false">PIN</string>
+    <string name="ui_unlock" formatted="false">Unlock</string>
+    <string name="ui_use_biometrics" formatted="false">Use biometrics</string>
+    <string name="ui_privacy_lock" formatted="false">Privacy lock</string>
+    <string name="ui_your_pin_is_salted_and_hashed_on_this_device_the_app_lock_su" formatted="false">Your PIN is salted and hashed on this device. The app lock supplements your device lock; it does not encrypt the journal database.</string>
+    <string name="ui_allow_biometric_unlock" formatted="false">Allow biometric unlock</string>
+    <string name="ui_set_up_a_strong_biometric_in_android_device_settings_to_enab" formatted="false">Set up a strong biometric in Android device settings to enable this option.</string>
+    <string name="ui_pins_are_never_included_in_backups_a_fresh_process_always_re" formatted="false">PINs are never included in backups. A fresh process always requires unlocking. There is no hidden recovery PIN; keep a safe backup of your journal.</string>
+    <string name="ui_pin_settings" formatted="false">PIN settings</string>
+    <string name="ui_current_pin" formatted="false">Current PIN</string>
+    <string name="ui_new_pin_6_12_digits" formatted="false">New PIN (6–12 digits)</string>
+    <string name="ui_confirm_new_pin" formatted="false">Confirm new PIN</string>
+    <string name="ui_to_remove_the_lock_enter_your_current_pin_and_leave_the_new_" formatted="false">To remove the lock, enter your current PIN and leave the new PIN empty.</string>
+    <string name="ui_appearance" formatted="false">Appearance</string>
+    <string name="ui_a_gentle_nudge" formatted="false">A gentle nudge</string>
+    <string name="ui_reminders_follow_your_local_timezone_android_may_delay_them_" formatted="false">Reminders follow your local timezone. Android may delay them to conserve battery; exact-minute delivery is not guaranteed.</string>
+    <string name="ui_add_reminder" formatted="false">Add reminder</string>
+    <string name="ui_allow_notifications" formatted="false">Allow notifications</string>
+    <string name="ui_no_reminders_scheduled" formatted="false">No reminders scheduled.</string>
+    <string name="ui_enabled" formatted="false">Enabled</string>
+    <string name="ui_reminder" formatted="false">Reminder</string>
+    <string name="ui_message" formatted="false">Message</string>
+    <string name="ui_hour" formatted="false">Hour</string>
+    <string name="ui_minute" formatted="false">Minute</string>
+    <string name="ui_save_reminder" formatted="false">Save reminder</string>
+    <string name="ui_delete_reminder" formatted="false">Delete reminder?</string>
+    <string name="ui_patterns_with_perspective" formatted="false">Patterns, with perspective</string>
+    <string name="ui_record_a_few_moments_to_start_exploring_your_patterns" formatted="false">Record a few moments to start exploring your patterns.</string>
+    <string name="ui_daily_mood_trend" formatted="false">Daily mood trend</string>
+    <string name="ui_lines_join_consecutive_recorded_days_only" formatted="false">Lines join consecutive recorded days only.</string>
+    <string name="ui_mood_distribution" formatted="false">Mood distribution</string>
+    <string name="ui_activity_frequency" formatted="false">Activity frequency</string>
+    <string name="ui_same_entry_associations" formatted="false">Same-entry associations</string>
+    <string name="ui_comparisons_describe_your_records_they_do_not_show_that_an_a" formatted="false">Comparisons describe your records; they do not show that an activity causes a mood change.</string>
+    <string name="ui_next_day_associations" formatted="false">Next-day associations</string>
+    <string name="ui_each_recorded_source_day_counts_once_only_the_immediately_fo" formatted="false">Each recorded source day counts once. Only the immediately following recorded calendar day is used. Both days must be inside the range. Missing days are excluded, not treated as neutral moods.</string>
+    <string name="ui_weekday_mood_averages" formatted="false">Weekday mood averages</string>
+    <string name="ui_activities_alongside_each_mood" formatted="false">Activities alongside each mood</string>
+    <string name="ui_activity_combinations" formatted="false">Activity combinations</string>
+    <string name="ui_confidence_is_a_sample_size_heuristic_not_statistical_certai" formatted="false">Confidence is a sample-size heuristic, not statistical certainty: under 5 insufficient, 5–14 low, 15–29 medium, 30+ high. Comparisons use the smaller of the two sample groups. Mood values are saved with each entry, so later customization does not rewrite history.</string>
+    <string name="ui_small_steps" formatted="false">Small steps</string>
+    <string name="ui_new_goal" formatted="false">New goal</string>
+    <string name="ui_completion_date_yyyy_mm_dd" formatted="false">Completion date (YYYY-MM-DD)</string>
+    <string name="ui_daily_streaks_count_scheduled_days_weekly_count_streaks_coun" formatted="false">Daily streaks count scheduled days; weekly-count streaks count successful weeks.</string>
+    <string name="ui_choose_something_you_would_like_to_make_time_for" formatted="false">Choose something you would like to make time for.</string>
+    <string name="ui_your_journal_grows" formatted="false">Your journal grows</string>
+    <string name="ui_a_quiet_acknowledgement_of_the_time_you_give_yourself" formatted="false">A quiet acknowledgement of the time you give yourself.</string>
+    <string name="ui_moodiary" formatted="false">Moodiary</string>
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="ui_opening_your_journal" formatted="false">Opening your journal…</string>
+    <string name="ui_retry_opening_journal" formatted="false">Retry opening journal</string>
+    <string name="ui_data_integrity" formatted="false">Data integrity</string>
+    <string name="ui_check_data_integrity" formatted="false">Check data integrity</string>
+    <string name="ui_clean_abandoned_photo_imports" formatted="false">Clean abandoned photo imports</string>
+    <string name="ui_no_advertising_tracking_or_mandatory_account_journal_content" formatted="false">No advertising, tracking or mandatory account. Journal content leaves this device only when you explicitly export or enable backup.</string>
+    <string name="ui_statistics_methodology" formatted="false">Statistics methodology</string>
+    <string name="ui_entries_retain_their_mood_score_when_you_customize_moods_tre" formatted="false">Entries retain their mood score when you customize moods. Trends average each local day\'s entries. Activity frequency counts entries; recorded-day frequency is separate. Same-entry association compares mean mood with and without the activity. Next-day analysis compares next-day daily averages after recorded source days with and without the activity. Each date counts once. Missing following days are omitted; both dates must lie in the chosen range. These are observational associations, not causal effects. Sample confidence is a heuristic based on the smaller comparison group, not a formal confidence interval.</string>
+    <string name="ui_dates_and_privacy" formatted="false">Dates and privacy</string>
+    <string name="ui_entry_timestamps_are_absolute_instants_shown_in_the_current_" formatted="false">Entry timestamps are absolute instants shown in the current device timezone. Travel or timezone changes can move an entry into another local date. Day-based goals and important dates retain their calendar dates. Linked completions are recalculated. Backups are versioned ZIP archives, not encrypted. PINs and account credentials are excluded. App lock supplements Android device security.</string>
+</resources>

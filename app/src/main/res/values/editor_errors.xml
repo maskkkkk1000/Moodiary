@@ -1,0 +1,18 @@
+<resources>
+    <string name="editor_could_not_preserve_draft">Could not preserve draft: %1$s</string>
+    <string name="editor_entry_no_longer_exists">This entry no longer exists</string>
+    <string name="editor_photo_limit">An entry can contain up to 12 photos</string>
+    <string name="editor_attached_photo_missing">An attached photo is missing. Remove it or select it again before saving.</string>
+    <string name="editor_choose_mood">Choose a mood</string>
+    <string name="editor_entry_removed_keep_draft">This entry was removed. Copy the draft note before discarding it.</string>
+    <string name="editor_could_not_open_entry">Could not open entry</string>
+    <string name="editor_could_not_import_photos">Could not import photos</string>
+    <string name="editor_could_not_save_entry">Could not save entry</string>
+    <string name="editor_could_not_discard_draft">Could not discard draft</string>
+    <string name="editor_nonexistent_time">This time does not exist because the clocks change. Choose another time.</string>
+    <string name="editor_invalid_date_time">Enter a valid date and time in YYYY-MM-DDTHH:MM format.</string>
+    <string name="editor_unreadable_draft">The saved draft could not be read. It has been kept on this device.</string>
+    <string name="editor_invalid_draft_cleanup_stopped">Invalid draft; photo cleanup stopped</string>
+    <string name="editor_invalid_draft_photo_reference">Invalid photo reference in saved draft</string>
+    <string name="editor_recovery_required">An interrupted restore must be recovered before changing or exporting this journal.</string>
+</resources>

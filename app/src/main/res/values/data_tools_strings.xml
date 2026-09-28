@@ -1,0 +1,36 @@
+<resources>
+    <string name="data_tools_done">Done</string>
+    <string name="data_tools_operation_failed">The operation failed</string>
+    <string name="data_tools_backup_saved">Backup saved</string>
+    <string name="data_tools_backup_validated">Backup validated; review the replacement below</string>
+    <string name="data_tools_folder_selected">Automatic backup folder selected</string>
+    <string name="data_tools_drive_connected">Drive connected</string>
+    <string name="data_tools_drive_sign_in_failed">Drive sign-in failed: %1$s. Configure an Android OAuth client for this app ID and signing certificate.</string>
+    <string name="data_tools_choose_folder">Choose backup folder</string>
+    <string name="data_tools_change_folder">Change backup folder</string>
+    <string name="data_tools_choose_destination_first">Choose a folder or connect Drive first</string>
+    <string name="data_tools_last_success">Last success: %1$s</string>
+    <string name="data_tools_last_error">Last automatic error: %1$s</string>
+    <string name="data_tools_drive_authorization_failed">Drive authorization failed: %1$s. Verify the Android OAuth client and signing certificate.</string>
+    <string name="data_tools_reconnect_drive">Reconnect Google Drive</string>
+    <string name="data_tools_connect_drive">Connect Google Drive</string>
+    <string name="data_tools_uploaded_drive">Uploaded to Drive</string>
+    <string name="data_tools_drive_backups_loaded">Drive backups loaded</string>
+    <string name="data_tools_drive_backup_validated">Drive backup validated</string>
+    <string name="data_tools_restore_cloud_item">Restore %1$s · %2$s</string>
+    <string name="data_tools_restore_completed">Restore completed</string>
+    <string name="data_tools_restore_confirmation">Validated backup from %1$s: %2$d entries and %3$d photos. All current entries, customizations and goals will be replaced. Create a backup first if you want to retain them. Device PIN is kept; automatic backups will be switched off.</string>
+    <string name="data_tools_export_saved">Export saved</string>
+    <string name="data_tools_format">Format</string>
+    <string name="data_tools_json_description">Complete structured data, with managed photo references. Use full backup for portable photos and restore.</string>
+    <string name="data_tools_csv_description">UTF-8 CSV. The Activities cell contains a JSON array. Text that could be interpreted as a spreadsheet formula is prefixed with an apostrophe.</string>
+    <string name="data_tools_pdf_description">A paginated report with summary, activity counts, notes and optional photos.</string>
+    <string name="data_tools_range">Range</string>
+    <string name="data_tools_seven_days">7 days</string>
+    <string name="data_tools_thirty_days">30 days</string>
+    <string name="data_tools_current_month">Current month</string>
+    <string name="data_tools_custom">Custom</string>
+    <string name="data_tools_all">All</string>
+    <string name="data_tools_end_date_after_start">End date must follow start date</string>
+    <string name="data_tools_invalid_range">Invalid range</string>
+</resources>
