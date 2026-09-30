@@ -4,7 +4,7 @@
 
 ## 构建与测试
 
-当前开发状态：可构建的 0.1.0 开发基线（versionCode 1），Room schema 1；不是 1.0 正式发行。版本规划见 [ROADMAP](docs/ROADMAP.md)，变更见 [CHANGELOG](CHANGELOG.md)，协作规则见 [版本管理约定](docs/VERSION_CONTROL.md)。
+当前版本：0.1.0（versionCode 1），Room schema 1；提供签名 APK 分发，不是 1.0。[发行页](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.1.0)及[安装迁移/签名说明](docs/INSTALL_AND_SIGNING.md)。版本规划见 [ROADMAP](docs/ROADMAP.md)，变更见 [CHANGELOG](CHANGELOG.md)，协作规则见 [版本管理约定](docs/VERSION_CONTROL.md)。
 
 环境：JDK 17、Android SDK 35、Build Tools 35.0.0、Gradle 8.13。当前工作目录已安装可移植工具，不需要修改系统环境变量。
 
@@ -19,6 +19,8 @@
 ```
 
 部分 Compose 路径断言使用英文文案，运行整套设备测试前请把专用设备系统及 Moodiary 的语言设为英文。Android 13+ 可在安装调试 APK 后执行 `adb shell cmd locale set-app-locales app.moodiary --user 0 --locales en`；语言专项测试会自行切换中英文并恢复原设置。不要在保存真实日记的设备上运行测试。
+
+设备测试期间保持屏幕唤醒并解除系统锁屏；专用模拟器可使用 `adb shell svc power stayon true`。屏幕休眠可能使 Compose 等待无法绘制的界面帧，造成测试停滞。测试结束后可用 `adb shell svc power stayon false` 恢复。
 
 调试安装包位于 `app/build/outputs/apk/debug/app-debug.apk`。请在专用测试设备上运行仪器测试；测试会创建日记、目标和临时报告。发行版需要用户自己的签名密钥，项目不包含私钥。
 
@@ -81,8 +83,8 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ## 当前限制
 
 - Google Drive 接入已实现，但没有真实 OAuth 项目/账户验收，云端功能不能视为已正式验证。
-- 生物识别、厂商后台策略、长期真机使用及完整 TalkBack 仍需实机验收。
+- 已收到用户“除 OAuth 外真机功能正常”的反馈；跨厂商后台策略、长期使用及完整 TalkBack 仍需扩大验收范围。
 - PIN 是界面访问控制，不会加密数据库；备份与导出文件是明文。
 - 已测试 50,000 条合成短日记；大量高分辨率照片/长文本仍需压力测试，界面数据快照尚未全面分页化。
 - 部分底层技术诊断仍可能为英文，用户自定义内容和已保存默认名称不自动翻译。
-- 当前 Release 构建未签名，签名密钥须保存在仓库外。完整发布前执行 [发布检查单](docs/RELEASE_CHECKLIST.md)。
+- Gradle 默认输出未签名 APK；发行包另用仓库外的长期密钥签名。Debug 用户需先备份再迁移，见 [安装说明](docs/INSTALL_AND_SIGNING.md)。完整发布前执行 [发布检查单](docs/RELEASE_CHECKLIST.md)。
