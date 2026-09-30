@@ -6,6 +6,7 @@
 
 ### Added
 
+- README 新增 GitHub Issues 问题反馈入口。
 - Windows 发行签名脚本和 Debug → 正式签名版备份迁移说明；仓库地址更正为 `maskkkkk1000/Moodiary`。
 
 ### Changed

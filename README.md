@@ -80,6 +80,12 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 恢复会替换当前日记，先备份现有数据，再选择归档并明确确认。应用先校验版本、内容和媒体路径，再执行替换；失败或中断时使用回滚记录保护原数据。JSON/CSV/PDF 是导出格式，不应当作完整恢复归档。
 
+## 问题反馈
+
+使用者如果发现任何问题，欢迎给我留言
+
+请通过 [GitHub Issues](https://github.com/maskkkkk1000/Moodiary/issues) 留言，描述复现步骤和手机型号。请勿上传真实日记、私人照片、备份文件或密码。
+
 ## 当前限制
 
 - Google Drive 接入已实现，但没有真实 OAuth 项目/账户验收，云端功能不能视为已正式验证。
