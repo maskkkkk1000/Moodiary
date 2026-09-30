@@ -34,6 +34,12 @@ class LargeJournalUiTest {
                 waitFor(ui.activity.resources.getQuantityString(R.plurals.journal_entry_count, 1, 1))
                 ui.onAllNodesWithText("Scale record 49999", substring = false).assertCountEquals(2)
             }
+            // Finish the IME transition before navigating to a different lazy layout.
+            ui.runOnUiThread {
+                androidx.core.view.WindowInsetsControllerCompat(ui.activity.window, ui.activity.window.decorView)
+                    .hide(androidx.core.view.WindowInsetsCompat.Type.ime())
+            }
+            ui.waitForIdle()
             val calendar = measureTimeMillis {
                 ui.onNodeWithTag("nav_calendar").performClick(); waitFor("The days, together")
                 ui.waitForIdle()

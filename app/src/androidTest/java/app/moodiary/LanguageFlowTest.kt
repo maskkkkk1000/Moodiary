@@ -82,7 +82,9 @@ class LanguageFlowTest {
         } finally {
             repository.deleteEntry(id)
             ui.runOnUiThread { AppCompatDelegate.setApplicationLocales(originalLanguage) }
-            ui.waitForIdle()
+            // Locale restoration may recreate the Activity. Do not ask Espresso to wait for
+            // a frame on the old root during teardown; the ActivityScenario rule closes it.
+            ui.waitUntil(30_000) { AppCompatDelegate.getApplicationLocales().toLanguageTags() == originalLanguage.toLanguageTags() }
         }
     }
 
@@ -113,7 +115,7 @@ class LanguageFlowTest {
             ui.onNodeWithText(discard).performClick()
             waitForTag("nav_more")
             ui.runOnUiThread { AppCompatDelegate.setApplicationLocales(originalLanguage) }
-            ui.waitForIdle()
+            ui.waitUntil(30_000) { AppCompatDelegate.getApplicationLocales().toLanguageTags() == originalLanguage.toLanguageTags() }
         }
     }
 
