@@ -1,0 +1,34 @@
+<resources>
+    <string name="iter_icon_label">Icon</string>
+    <string name="iter_change_icon">Change</string>
+    <string name="iter_choose_icon">Choose an icon</string>
+    <string name="iter_icon_preview">Icon preview</string>
+    <string name="iter_emoji">Emoji</string>
+    <string name="iter_custom_emoji">Custom emoji</string>
+    <string name="iter_custom_emoji_hint">Paste your favorite emoji, or choose one above.</string>
+    <string name="iter_built_in_icons">Built-in icons</string>
+    <string name="iter_icon_happy">Happy face</string>
+    <string name="iter_icon_calm">Calm</string>
+    <string name="iter_icon_sun">Sun</string>
+    <string name="iter_icon_celebrate">Celebration</string>
+    <string name="iter_icon_sad">Sad face</string>
+    <string name="iter_icon_tired">Sleepy face</string>
+    <string name="iter_icon_study">Reading and study</string>
+    <string name="iter_icon_exercise">Running</string>
+    <string name="iter_icon_rest">Moon and rest</string>
+    <string name="iter_icon_ideas">Ideas</string>
+    <string name="iter_icon_work">Work</string>
+    <string name="iter_icon_nature">Nature</string>
+    <string name="iter_icon_music">Music</string>
+    <string name="iter_icon_coffee">Coffee</string>
+    <string name="iter_icon_food">Food</string>
+    <string name="iter_icon_heart">Heart</string>
+    <string name="iter_icon_fitness">Fitness</string>
+    <string name="iter_icon_code">Code</string>
+    <string name="iter_binary_goals">Little goals</string>
+    <string name="iter_editor_hint">A feeling, a small detail, a moment of your day.</string>
+    <string name="iter_no_moods">Create or restore a mood in More → Moods to start recording.</string>
+    <string name="iter_no_activities">Add activities in More → Activities when you want to capture more of your day.</string>
+    <string name="iter_color_presets">Color palette</string>
+    <string name="iter_color_option">Color %1$s</string>
+</resources>

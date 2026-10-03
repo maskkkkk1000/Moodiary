@@ -25,10 +25,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import app.moodiary.domain.*
+import app.moodiary.core.designsystem.JournalIcon
 import coil.compose.AsyncImage
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -51,17 +55,29 @@ data class JournalDisplayIndex(val activities: Map<Long, List<Activity>> = empty
     var deleting by remember { mutableStateOf(false) }
     val locale = LocalConfiguration.current.locales[0]
     val photos = index.photos[entry.id].orEmpty()
-    Card(Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("${entry.moodIcon} ${entry.moodName}", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+    Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)) {
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Box(Modifier.background(Color(entry.moodColor).copy(alpha = 0.12f), MaterialTheme.shapes.medium).padding(10.dp), contentAlignment = Alignment.Center) {
+                    JournalIcon(entry.moodIcon, size = 34.dp)
+                }
+                Text(entry.moodName, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                 Text(Instant.ofEpochMilli(entry.timestamp).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("HH:mm", locale)), style = MaterialTheme.typography.labelLarge)
             }
             val activities = index.activities[entry.id].orEmpty()
-            if (activities.isNotEmpty()) Text(activities.joinToString("  ·  ") { "${it.icon} ${it.name}" }, style = MaterialTheme.typography.bodyMedium)
-            if (entry.note.isNotBlank()) Text(entry.note, maxLines = 8)
+            if (activities.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                activities.forEach { activity ->
+                    Surface(shape = MaterialTheme.shapes.small, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+                        Row(Modifier.padding(horizontal = 10.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            JournalIcon(activity.icon, size = 20.dp)
+                            Text(activity.name, style = MaterialTheme.typography.labelLarge)
+                        }
+                    }
+                }
+            }
+            if (entry.note.isNotBlank()) Text(entry.note, maxLines = 6, overflow = TextOverflow.Ellipsis)
             if (photos.isNotEmpty()) LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { items(photos, key = { it.id }) { photo ->
-                AsyncImage(vm.photos.file(photo.localPath), stringResource(R.string.journal_entry_photo), Modifier.size(80.dp).clickable { edit(entry.id) })
+                AsyncImage(vm.photos.file(photo.localPath), stringResource(R.string.journal_entry_photo), Modifier.size(96.dp).clip(MaterialTheme.shapes.medium).clickable { edit(entry.id) }, contentScale = ContentScale.Crop)
             } }
             FlowRow { TextButton({ edit(entry.id) }) { Text(stringResource(R.string.ui_edit_entry)) }; TextButton({ deleting = true }) { Text(stringResource(R.string.ui_delete)) } }
         }
@@ -103,7 +119,12 @@ data class JournalDisplayIndex(val activities: Map<Long, List<Activity>> = empty
             }
         }
         item { Text(pluralStringResource(R.plurals.journal_entry_count, entries.size, entries.size), style = MaterialTheme.typography.labelLarge) }
-        if (entries.isEmpty()) item { Text(stringResource(if (data.entries.isEmpty()) R.string.journal_empty_journal else R.string.journal_empty_filters)) }
+        if (entries.isEmpty()) item { Surface(shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerLow) {
+            Column(Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                JournalIcon("🌿", size = 40.dp)
+                Text(stringResource(if (data.entries.isEmpty()) R.string.journal_empty_journal else R.string.journal_empty_filters), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        } }
         itemsIndexed(entries, key = { _, entry -> entry.id }) { position, entry ->
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (position == 0 || entries[position - 1].date(zone) != entry.date(zone)) Text(entry.date(zone).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale)), style = MaterialTheme.typography.labelLarge)

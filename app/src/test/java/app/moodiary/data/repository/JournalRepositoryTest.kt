@@ -82,8 +82,8 @@ class JournalRepositoryTest {
         val mood = before.moods.first()
         val activity = before.activities.first()
         val entryId = repository.saveEntry(newEntry(), setOf(activity.id), emptyList())
-        repository.saveMood(mood.copy(name = "Renamed", score = -5.0, isArchived = true))
-        repository.saveActivity(activity.copy(name = "Renamed activity", isArchived = true))
+        repository.saveMood(mood.copy(name = "Renamed", score = -5.0, icon = "🥳", isArchived = true))
+        repository.saveActivity(activity.copy(name = "Renamed activity", icon = "material:book", color = 0xFF275F8A, isArchived = true))
         val old = repository.snapshot().entries.single()
         repository.saveEntry(old.copy(note = "Edited note", moodName = "Wrong", moodScore = 999.0), setOf(activity.id), emptyList())
         val stored = repository.snapshot()
@@ -91,6 +91,10 @@ class JournalRepositoryTest {
         assertEquals(mood.name, stored.entries.single().moodName)
         assertEquals(mood.score, stored.entries.single().moodScore, 0.0)
         assertEquals(activity.id, stored.entryActivities.single().activityId)
+        assertEquals(mood.icon, stored.entries.single().moodIcon)
+        assertEquals("🥳", stored.moods.single { it.id == mood.id }.icon)
+        assertEquals("material:book", stored.activities.single { it.id == activity.id }.icon)
+        assertEquals(0xFF275F8A, stored.activities.single { it.id == activity.id }.color)
         assertEquals("Edited note", stored.entries.single().note)
     }
 
