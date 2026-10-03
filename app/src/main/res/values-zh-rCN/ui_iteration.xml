@@ -1,0 +1,34 @@
+<resources>
+    <string name="iter_icon_label">图标</string>
+    <string name="iter_change_icon">更换</string>
+    <string name="iter_choose_icon">选择图标</string>
+    <string name="iter_icon_preview">图标预览</string>
+    <string name="iter_emoji">表情</string>
+    <string name="iter_custom_emoji">自定义表情</string>
+    <string name="iter_custom_emoji_hint">粘贴你喜欢的表情，或从上方选择。</string>
+    <string name="iter_built_in_icons">内置图标</string>
+    <string name="iter_icon_happy">开心</string>
+    <string name="iter_icon_calm">平静</string>
+    <string name="iter_icon_sun">太阳</string>
+    <string name="iter_icon_celebrate">庆祝</string>
+    <string name="iter_icon_sad">难过</string>
+    <string name="iter_icon_tired">困倦</string>
+    <string name="iter_icon_study">读书学习</string>
+    <string name="iter_icon_exercise">跑步</string>
+    <string name="iter_icon_rest">月亮与休息</string>
+    <string name="iter_icon_ideas">灵感</string>
+    <string name="iter_icon_work">工作</string>
+    <string name="iter_icon_nature">自然</string>
+    <string name="iter_icon_music">音乐</string>
+    <string name="iter_icon_coffee">咖啡</string>
+    <string name="iter_icon_food">饮食</string>
+    <string name="iter_icon_heart">爱心</string>
+    <string name="iter_icon_fitness">健身</string>
+    <string name="iter_icon_code">编程</string>
+    <string name="iter_binary_goals">小目标</string>
+    <string name="iter_editor_hint">一种心情，一个小细节，记下此刻的生活。</string>
+    <string name="iter_no_moods">前往「更多 → 心情」创建或恢复心情，即可开始记录。</string>
+    <string name="iter_no_activities">想记下更多日常细节时，可以前往「更多 → 活动」添加活动。</string>
+    <string name="iter_color_presets">配色</string>
+    <string name="iter_color_option">颜色 %1$s</string>
+</resources>

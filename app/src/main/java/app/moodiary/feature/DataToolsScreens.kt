@@ -78,7 +78,10 @@ import java.time.format.DateTimeParseException
 }
 
 @Composable fun RestoreConfirmation(staged: PreparedRestore, busy: Boolean, confirm: () -> Unit, cancel: () -> Unit) {
-    AlertDialog(onDismissRequest = { if (!busy) cancel() }, title = { Text(stringResource(R.string.ui_replace_this_journal)) }, text = { Text(stringResource(R.string.data_tools_restore_confirmation, staged.createdAt.toString(), staged.entries, staged.photos)) }, confirmButton = { TextButton(enabled = !busy, onClick = confirm) { Text(stringResource(R.string.ui_replace_local_data)) } }, dismissButton = { TextButton(enabled = !busy, onClick = cancel) { Text(stringResource(R.string.ui_cancel)) } })
+    AlertDialog(onDismissRequest = { if (!busy) cancel() }, title = { Text(stringResource(R.string.ui_replace_this_journal)) }, text = { Column {
+        Text(stringResource(R.string.data_tools_restore_confirmation, staged.createdAt.toString(), staged.entries, staged.photos))
+        Text(stringResource(R.string.binary_restore_preview, staged.binaryGoals, staged.binaryGoalRecords))
+    } }, confirmButton = { TextButton(enabled = !busy, onClick = confirm) { Text(stringResource(R.string.ui_replace_local_data)) } }, dismissButton = { TextButton(enabled = !busy, onClick = cancel) { Text(stringResource(R.string.ui_cancel)) } })
 }
 
 @Composable fun ExportScreen(tools: DataToolsViewModel = hiltViewModel()) {

@@ -17,6 +17,8 @@ class LargeJournalUiTest {
     @get:Rule val ui = createAndroidComposeRule<MainActivity>()
     private fun waitFor(text: String) = ui.waitUntil(60_000) { ui.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty() }
     @Test fun fiftyThousandEntriesRenderSearchAndNavigate() = runBlocking {
+        ui.waitUntil(30_000) { ui.onAllNodesWithTag("nav_entries").fetchSemanticsNodes().isNotEmpty() }
+        ui.onNodeWithTag("nav_entries").performClick()
         waitFor("Your moments")
         lateinit var vm: JournalViewModel
         ui.runOnUiThread { vm = ViewModelProvider(ui.activity)[JournalViewModel::class.java] }

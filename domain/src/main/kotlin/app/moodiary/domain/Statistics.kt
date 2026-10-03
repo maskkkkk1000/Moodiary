@@ -65,19 +65,22 @@ object EntrySearch {
 }
 
 object Statistics {
-    fun summarize(data: JournalData, zone: ZoneId, from: LocalDate? = null, through: LocalDate? = null): StatisticsSummary {
+    fun summarize(data: JournalData, zone: ZoneId, from: LocalDate? = null, through: LocalDate? = null, modules: Set<StatisticsModule> = StatisticsModule.entries.toSet()): StatisticsSummary {
         val entries = data.entries.filter { (from == null || it.date(zone) >= from) && (through == null || it.date(zone) <= through) }
         val entriesById = entries.associateBy { it.id }
-        val links = data.entryActivities.asSequence().filter { it.entryId in entriesById }.distinct().toList()
+        val needsLinks = modules.any { it in setOf(StatisticsModule.ACTIVITY_FREQUENCY, StatisticsModule.SAME_ENTRY_ASSOCIATION,
+            StatisticsModule.NEXT_DAY_ASSOCIATION, StatisticsModule.MOOD_ACTIVITIES, StatisticsModule.ACTIVITY_COMBINATIONS) }
+        val links = if (needsLinks) data.entryActivities.asSequence().filter { it.entryId in entriesById }.distinct().toList() else emptyList()
         val linksByEntry = links.groupBy { it.entryId }
         val entriesByActivity = links.groupBy { it.activityId }.mapValues { (_, links) -> links.map { entriesById.getValue(it.entryId) } }
-        val daily = entries.groupBy { it.date(zone) }.toSortedMap()
+        val needsDaily = modules.any { it in setOf(StatisticsModule.MOOD_TREND, StatisticsModule.NEXT_DAY_ASSOCIATION, StatisticsModule.WEEKDAY_PATTERN) }
+        val daily = if (needsDaily) entries.groupBy { it.date(zone) }.toSortedMap() else emptyMap()
         val trend = daily.map { (date, rows) -> DailyMood(date, rows.map { it.moodScore }.average(), rows.size) }
         val dailyMean = trend.associate { it.date to it.average }
         val activityDates = entriesByActivity.mapValues { (_, rows) -> rows.mapTo(HashSet()) { it.date(zone) } }
         val total = entries.sumOf { it.moodScore }
         val activityIds = data.activities.map { it.id }
-        val same = activityIds.map { id ->
+        val same = if (StatisticsModule.SAME_ENTRY_ASSOCIATION !in modules) emptyList() else activityIds.map { id ->
             val with = entriesByActivity[id].orEmpty()
             val sum = with.sumOf { it.moodScore }
             Association(id, with.size, entries.size - with.size, mean(sum, with.size), mean(total - sum, entries.size - with.size))
@@ -85,7 +88,7 @@ object Statistics {
         // Only observed adjacent pairs entirely within the selected range qualify.
         // Missing days are never filled, and each local source day has weight one.
         val adjacentDays = dailyMean.keys.filter { it.plusDays(1) in dailyMean }
-        val next = activityIds.map { id ->
+        val next = if (StatisticsModule.NEXT_DAY_ASSOCIATION !in modules) emptyList() else activityIds.map { id ->
             var withCount = 0; var withoutCount = 0; var withSum = 0.0; var withoutSum = 0.0
             val dates = activityDates[id].orEmpty()
             adjacentDays.forEach { source ->
@@ -98,18 +101,19 @@ object Statistics {
         // Counts/sums are accumulated without retaining a separate list of scores for each pair.
         val exploredIds = entriesByActivity.entries.sortedByDescending { it.value.size }.take(24).mapTo(HashSet()) { it.key }
         val pairs = HashMap<Set<Long>, PairAccumulator>()
-        entries.forEach { entry ->
+        if (StatisticsModule.ACTIVITY_COMBINATIONS in modules) entries.forEach { entry ->
             val ids = linksByEntry[entry.id].orEmpty().map { it.activityId }.filter { it in exploredIds }.distinct().sorted()
             for (i in ids.indices) for (j in i + 1 until ids.size) {
                 pairs.getOrPut(setOf(ids[i], ids[j])) { PairAccumulator() }.apply { count++; sum += entry.moodScore }
             }
         }
         return StatisticsSummary(
-            entries.size, mean(total, entries.size), trend, entries.groupingBy { it.moodId }.eachCount(),
-            entriesByActivity.map { (id, rows) -> ActivityFrequency(id, rows.size, activityDates.getValue(id).size) }.sortedByDescending { it.entries },
+            entries.size, mean(total, entries.size), if (StatisticsModule.MOOD_TREND in modules) trend else emptyList(),
+            if (StatisticsModule.MOOD_DISTRIBUTION in modules) entries.groupingBy { it.moodId }.eachCount() else emptyMap(),
+            if (StatisticsModule.ACTIVITY_FREQUENCY in modules) entriesByActivity.map { (id, rows) -> ActivityFrequency(id, rows.size, activityDates.getValue(id).size) }.sortedByDescending { it.entries } else emptyList(),
             same, next,
-            trend.groupBy { it.date.dayOfWeek }.mapValues { (_, days) -> days.map { it.average }.average() },
-            entries.groupBy { it.moodId }.mapValues { (_, rows) -> rows.flatMap { linksByEntry[it.id].orEmpty() }.groupingBy { it.activityId }.eachCount() },
+            if (StatisticsModule.WEEKDAY_PATTERN in modules) trend.groupBy { it.date.dayOfWeek }.mapValues { (_, days) -> days.map { it.average }.average() } else emptyMap(),
+            if (StatisticsModule.MOOD_ACTIVITIES in modules) entries.groupBy { it.moodId }.mapValues { (_, rows) -> rows.flatMap { linksByEntry[it.id].orEmpty() }.groupingBy { it.activityId }.eachCount() } else emptyMap(),
             pairs.map { (ids, scores) ->
                 val baseline = mean(total - scores.sum, entries.size - scores.count)
                 CombinationPattern(ids, scores.count, scores.sum / scores.count, baseline, Confidence.forSamples(minOf(scores.count, entries.size - scores.count)))

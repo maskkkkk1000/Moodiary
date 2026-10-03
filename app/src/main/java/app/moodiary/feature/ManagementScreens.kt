@@ -10,28 +10,43 @@ import java.text.NumberFormat
 import app.moodiary.R
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import app.moodiary.domain.*
+import app.moodiary.core.designsystem.IconPicker
+import app.moodiary.core.designsystem.JournalIcon
 import java.time.LocalDate
 
 @Composable fun MoreScreen(open: (String) -> Unit) {
     val sections = listOf(
-        stringResource(R.string.journal_your_journal) to listOf("goals" to stringResource(R.string.journal_goals), "moods" to stringResource(R.string.journal_moods), "activities" to stringResource(R.string.journal_activities), "groups" to stringResource(R.string.journal_groups), "templates" to stringResource(R.string.journal_templates), "important" to stringResource(R.string.journal_important), "achievements" to stringResource(R.string.journal_achievements)),
+        stringResource(R.string.journal_your_journal) to listOf("goals" to stringResource(R.string.journal_goals), "binary_goals" to stringResource(R.string.iter_binary_goals), "moods" to stringResource(R.string.journal_moods), "activities" to stringResource(R.string.journal_activities), "groups" to stringResource(R.string.journal_groups), "templates" to stringResource(R.string.journal_templates), "important" to stringResource(R.string.journal_important), "achievements" to stringResource(R.string.journal_achievements)),
         stringResource(R.string.journal_your_preferences) to listOf("reminders" to stringResource(R.string.journal_reminders), "appearance" to stringResource(R.string.journal_appearance), "language" to stringResource(R.string.journal_language), "privacy" to stringResource(R.string.journal_privacy)),
         stringResource(R.string.journal_your_data) to listOf("backup" to stringResource(R.string.journal_backup), "export" to stringResource(R.string.journal_export), "audit" to stringResource(R.string.journal_audit), "about" to stringResource(R.string.journal_about))
     )
     LazyColumn(Modifier.testTag("more_list"), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item { Text(stringResource(R.string.ui_make_it_yours), style = MaterialTheme.typography.headlineLarge) }
         sections.forEach { (title, links) ->
-            item { Text(title, style = MaterialTheme.typography.titleMedium) }
-            items(links) { (route, label) -> OutlinedButton({ open(route) }, Modifier.fillMaxWidth()) { Text(label) } }
+            item { Text(title, Modifier.padding(top = 12.dp, bottom = 4.dp), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary) }
+            items(links) { (route, label) ->
+                Card(onClick = { open(route) }, modifier = Modifier.fillMaxWidth().testTag("more_$route"), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)) {
+                    Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).padding(horizontal = 18.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        JournalIcon(when (route) { "goals" -> "🌱"; "binary_goals" -> "🎯"; "moods" -> "🌞"; "activities" -> "🏃"; "groups" -> "🗂"; "templates" -> "📝"; "important" -> "📌"; "achievements" -> "🌟"; "reminders" -> "🔔"; "appearance" -> "🎨"; "language" -> "🌐"; "privacy" -> "🔒"; "backup" -> "☁"; "export" -> "📤"; "audit" -> "🛡"; else -> "🌿" }, size = 24.dp)
+                        Text(label, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
+            }
         }
     }
 }
@@ -44,10 +59,10 @@ import java.time.LocalDate
     var editing by remember { mutableStateOf<Long?>(null) }
     var deleting by remember { mutableStateOf<Long?>(null) }
     val title = when (kind) { "moods" -> stringResource(R.string.journal_moods); "activities" -> stringResource(R.string.journal_activities); "groups" -> stringResource(R.string.journal_groups); "templates" -> stringResource(R.string.journal_templates); else -> stringResource(R.string.journal_important) }
-    data class RowItem(val id: Long, val label: String, val detail: String, val archived: Boolean, val order: Int)
+    data class RowItem(val id: Long, val label: String, val detail: String, val archived: Boolean, val order: Int, val icon: String? = null)
     val rows = when (kind) {
-        "moods" -> data.moods.map { RowItem(it.id, "${it.icon} ${it.name}", stringResource(R.string.journal_score, numberFormat.format(it.score)), it.isArchived, it.sortOrder) }
-        "activities" -> data.activities.map { RowItem(it.id, "${it.icon} ${it.name}", data.groups.find { g -> g.id == it.groupId }?.name ?: stringResource(R.string.journal_other), it.isArchived, it.sortOrder) }
+        "moods" -> data.moods.map { RowItem(it.id, it.name, stringResource(R.string.journal_score, numberFormat.format(it.score)), it.isArchived, it.sortOrder, it.icon) }
+        "activities" -> data.activities.map { RowItem(it.id, it.name, data.groups.find { g -> g.id == it.groupId }?.name ?: stringResource(R.string.journal_other), it.isArchived, it.sortOrder, it.icon) }
         "groups" -> data.groups.map { RowItem(it.id, it.name, "", it.isArchived, it.sortOrder) }
         "templates" -> data.templates.map { RowItem(it.id, it.name, it.content, it.isArchived, it.sortOrder) }
         else -> data.importantDays.map { RowItem(it.id, "${it.icon} ${it.title}", "${LocalDate.parse(it.date).format(dateFormat)} ${it.note}", false, 0) }
@@ -57,10 +72,13 @@ import java.time.LocalDate
         if (rows.isEmpty()) item { Text(stringResource(R.string.ui_nothing_here_yet_add_your_first_item)) }
         items(rows, key = { it.id }) { row ->
             Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
-                Text(if (row.archived) stringResource(R.string.journal_archived_name, row.label) else row.label, style = MaterialTheme.typography.titleMedium)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    row.icon?.let { JournalIcon(it, size = 32.dp) }
+                    Text(if (row.archived) stringResource(R.string.journal_archived_name, row.label) else row.label, style = MaterialTheme.typography.titleMedium)
+                }
                 if (row.detail.isNotBlank()) Text(row.detail, maxLines = 3)
                 FlowRow {
-                    TextButton({ editing = row.id }) { Text(stringResource(R.string.ui_edit)) }
+                    TextButton({ editing = row.id }, Modifier.testTag("edit_${kind}_${row.id}")) { Text(stringResource(R.string.ui_edit)) }
                     if (kind == "important") TextButton({ deleting = row.id }) { Text(stringResource(R.string.ui_delete)) }
                     else {
                         TextButton({ vm.run {
@@ -111,9 +129,12 @@ import java.time.LocalDate
     AlertDialog(onDismissRequest = close, title = { Text(stringResource(if (id == 0L) R.string.journal_create_item else R.string.journal_edit_item)) }, text = {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item { OutlinedTextField(name, { name = it }, label = { Text(stringResource(R.string.ui_name)) }, singleLine = true) }
-            if (kind in listOf("moods", "activities", "important")) item { OutlinedTextField(icon, { icon = it }, label = { Text(stringResource(R.string.ui_icon_or_emoji)) }, singleLine = true) }
+            if (kind in listOf("moods", "activities", "important")) item { IconPicker(icon, { icon = it }, allowMaterial = kind == "activities") }
             if (kind == "moods") item { OutlinedTextField(score, { score = it }, label = { Text(stringResource(R.string.ui_mood_score_0_10)) }, singleLine = true); Text(stringResource(R.string.ui_changes_apply_to_new_entries_existing_mood_snapshots_are_pre)) }
-            if (kind == "moods" || kind == "activities") item { OutlinedTextField(color, { color = it }, label = { Text(stringResource(R.string.ui_color_aarrggbb_hex)) }, singleLine = true) }
+            if (kind == "moods" || kind == "activities") item {
+                ColorPalette(color) { color = it }
+                OutlinedTextField(color, { color = it }, label = { Text(stringResource(R.string.ui_color_aarrggbb_hex)) }, singleLine = true)
+            }
             if (kind == "activities") item { ChoiceRow(stringResource(R.string.journal_group), listOf(null to stringResource(R.string.journal_other)) + data.groups.filter { !it.isArchived }.map { it.id to it.name }, groupId) { groupId = it } }
             if (kind == "templates" || kind == "important") item { OutlinedTextField(content, { content = it }, label = { Text(stringResource(if (kind == "templates") R.string.journal_template_text else R.string.journal_note)) }, minLines = 3) }
             if (kind == "important") item { OutlinedTextField(date, { date = it }, label = { Text(stringResource(R.string.ui_date_yyyy_mm_dd)) }) }
@@ -122,6 +143,7 @@ import java.time.LocalDate
     }, confirmButton = { TextButton({
         try {
             require(name.isNotBlank()) { context.getString(R.string.journal_enter_name) }
+            if (kind in listOf("moods", "activities", "important")) require(icon.isNotBlank()) { context.getString(R.string.iter_choose_icon) }
             val parsedColor = if (kind == "moods" || kind == "activities") color.removePrefix("#").toLong(16).also { require(it in 0..0xFFFFFFFF) { context.getString(R.string.journal_valid_color) } } else 0L
             val parsedScore = if (kind == "moods") score.toDouble().also { require(it.isFinite() && it in -1000.0..1000.0) { context.getString(R.string.journal_score_bounds) } } else 0.0
             if (kind == "important") LocalDate.parse(date)
@@ -137,6 +159,24 @@ import java.time.LocalDate
             }
         } catch (failure: Exception) { error = if (failure is java.time.format.DateTimeParseException || failure is NumberFormatException) context.getString(R.string.journal_check_input) else failure.message ?: context.getString(R.string.journal_check_input) }
     }) { Text(stringResource(R.string.ui_save)) } }, dismissButton = { TextButton(close) { Text(stringResource(R.string.ui_cancel)) } })
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable private fun ColorPalette(selected: String, choose: (String) -> Unit) {
+    Text(stringResource(R.string.iter_color_presets), style = MaterialTheme.typography.labelLarge)
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        listOf("ff326a5f", "ff275f8a", "ff755078", "ff974858", "ff875316", "ff687342").forEach { hex ->
+            val color = Color(hex.toLong(16))
+            val description = stringResource(R.string.iter_color_option, "#${hex.drop(2)}")
+            FilledTonalIconToggleButton(selected.removePrefix("#").equals(hex, ignoreCase = true), { choose(hex) }, Modifier.size(48.dp)) {
+                Surface(Modifier.size(30.dp), shape = CircleShape, color = color, contentColor = if (color.luminance() > 0.5f) Color.Black else Color.White) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Text(if (selected.removePrefix("#").equals(hex, ignoreCase = true)) "✓" else "", Modifier.semantics { contentDescription = description })
+                    }
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)

@@ -27,3 +27,7 @@ fun NoteTemplate.entity() = NoteTemplateEntity(id, name, content, sortOrder, isA
 fun NoteTemplateEntity.model() = NoteTemplate(id, name, content, sortOrder, isArchived)
 fun ImportantDay.entity() = ImportantDayEntity(id, date, title, icon, note)
 fun ImportantDayEntity.model() = ImportantDay(id, date, title, icon, note)
+fun BinaryGoal.entity() = BinaryGoalEntity(id, name, icon, description, sortOrder, isArchived, createdAt, updatedAt)
+fun BinaryGoalEntity.model() = BinaryGoal(id, name, icon, description, sortOrder, isArchived, createdAt, updatedAt)
+fun BinaryGoalRecord.entity() = BinaryGoalRecordEntity(id, goalId, date, value, createdAt, updatedAt)
+fun BinaryGoalRecordEntity.model() = BinaryGoalRecord(id, goalId, date, value, createdAt, updatedAt)

@@ -74,6 +74,45 @@ class BackupServiceTest {
         try { service.prepareRestore(Uri.fromFile(invalid)); fail("Must reject corruption") } catch (_: IllegalArgumentException) { }
         assertEquals(before, repository.snapshot())
     }
+    @Test fun smallGoalsArchiveRoundTripPreservesIconsResultsAndStatistics() = runBlocking {
+        entry("Existing journal remains")
+        val id = repository.saveBinaryGoal(BinaryGoal(name = "算法题", icon = "🧠", description = "A little each day"))
+        repository.setBinaryGoalRecord(id, "2024-01-01", 1)
+        repository.setBinaryGoalRecord(id, "2024-01-02", 0)
+        val before = repository.snapshot()
+        val archive = service.createArchive()
+        val prepared = service.prepareRestore(Uri.fromFile(archive))
+        assertEquals(1, prepared.binaryGoals); assertEquals(2, prepared.binaryGoalRecords)
+        repository.replaceAll(JournalData(moods = before.moods))
+        service.restore(prepared)
+        val restored = repository.snapshot()
+        assertEquals(before, restored)
+        val metrics = BinaryGoalStatistics.summarize(restored.binaryGoals, restored.binaryGoalRecords,
+            java.time.LocalDate.parse("2024-01-01"), java.time.LocalDate.parse("2024-01-03"), java.time.ZoneId.of("UTC"))
+        assertEquals(50.0, metrics.total.completionRate!!, 0.0)
+        assertEquals(1L, metrics.total.unset)
+        val exported = BackupCodec.json.decodeFromString<JournalData>(ExportCodec.json(restored))
+        assertEquals(restored.binaryGoals, exported.binaryGoals)
+        assertEquals(restored.binaryGoalRecords, exported.binaryGoalRecords)
+    }
+
+    @Test fun legacyVersionOneArchiveRestoresWithEmptySmallGoals() = runBlocking {
+        entry("Legacy version one note")
+        val original = repository.snapshot()
+        val archive = File(context.cacheDir, "legacy-format-one.zip")
+        val fields = kotlinx.serialization.json.Json.parseToJsonElement(ExportCodec.json(original)).let { it as kotlinx.serialization.json.JsonObject }
+        val legacy = kotlinx.serialization.json.JsonObject(fields.filterKeys { it != "binaryGoals" && it != "binaryGoalRecords" }).toString()
+        java.util.zip.ZipOutputStream(archive.outputStream()).use { zip ->
+            val files=mapOf("database.json" to legacy,"settings.json" to "{}","metadata.json" to "{\"formatVersion\":1,\"createdAt\":\"2024-01-01T00:00:00Z\",\"appVersion\":\"0.1.0\",\"platform\":\"android\",\"photoSha256\":{}}")
+            files.forEach { (name,value) -> zip.putNextEntry(java.util.zip.ZipEntry(name));zip.write(value.toByteArray(Charsets.UTF_8));zip.closeEntry() }
+        }
+        repository.saveBinaryGoal(BinaryGoal(name="Newer goal to replace"))
+        val prepared=service.prepareRestore(Uri.fromFile(archive))
+        service.restore(prepared)
+        assertEquals(original.entries,repository.snapshot().entries)
+        assertTrue(repository.snapshot().binaryGoals.isEmpty())
+        assertTrue(repository.snapshot().binaryGoalRecords.isEmpty())
+    }
     @Test fun interruptedRestoreRollsBackOnNextLaunch() = runBlocking {
         entry("Before interruption")
         val before = repository.snapshot()

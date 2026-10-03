@@ -1,0 +1,15 @@
+<resources>
+    <string name="stats_this_week">本周</string><string name="stats_this_month">本月</string><string name="stats_custom">自定义日期</string>
+    <string name="stats_habit_goals">习惯目标完成情况</string><string name="stats_binary_goals">小目标完成情况</string>
+    <string name="stats_moods">心情 · %d</string><string name="stats_activities">活动 · %d</string><string name="stats_modules">统计项目 · %d</string><string name="stats_goals">小目标 · %d</string>
+    <string name="stats_filter_hint">心情、活动和小目标选中 0 项表示全部。多个活动满足其中任一项即可（OR）；心情和活动条件共同生效。</string>
+    <string name="stats_reset">重置筛选</string><string name="stats_write_error">无法保存筛选，请重试。</string><string name="stats_error">无法加载统计。请检查日期，重试或重置筛选。</string>
+    <string name="stats_entry_count">%d 条记录</string><string name="stats_no_modules">选择一个统计项目，看看记录中的变化吧。</string><string name="stats_show_more">显示更多（%1$d / %2$d）</string>
+    <string name="stats_filter_title">选择你关心的内容</string><string name="stats_all">全部</string><string name="stats_no_options">还没有记录。</string><string name="stats_done">完成</string>
+    <string name="stats_start">开始日期（YYYY-MM-DD）</string><string name="stats_end">结束日期（YYYY-MM-DD）</string><string name="stats_invalid_range">请输入有效日期，开始日期不能晚于结束日期。</string><string name="stats_apply">应用自定义日期</string>
+    <string name="stats_frequency">%1$s：%2$d 条记录 · %3$d 天</string><string name="stats_combination">%1$s · %2$d 次观察 · 平均 %3$s · 对照 %4$s</string>
+    <string name="stats_goal_independent">目标结果独立于日记。目标统计遵循日期筛选；心情和活动筛选仅影响日记统计。</string>
+    <string name="stats_binary_definition">完成率 = 成功次数 / 已记录次数，未记录不进入分母。可记录天数从创建日或最早补录日开始计算。</string>
+    <string name="stats_weekly">每周完成率</string><string name="stats_monthly">每月完成率</string><string name="stats_trend_limit">趋势最多显示最近 104 周 / 36 个月；汇总使用完整筛选范围。</string>
+    <string name="stats_binary_counts">成功 %1$d · 未做到 %2$d · 已记录 %3$d · 未记录 %4$d</string><string name="stats_rate">完成率：%s%%</string>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="export_binary_goal_title">小目标</string>
+    <string name="export_binary_goal_denominator">完成率 = 成功次数 / 已记录次数；未记录的日期不计入分母。</string>
+    <string name="export_binary_goal_unrecorded">尚未记录结果</string>
+    <string name="export_binary_goal_summary">%1$s · 成功：%2$d · 失败：%3$d · 完成率：%4$s</string>
+</resources>

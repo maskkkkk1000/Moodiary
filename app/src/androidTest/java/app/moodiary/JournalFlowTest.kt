@@ -27,10 +27,8 @@ class JournalFlowTest {
     }
 
     @Test fun createEditSearchDeleteAndCalendar() {
-        waitFor("Your moments")
-        ui.onNodeWithTag("nav_editor").performClick()
         waitFor("A moment to remember")
-        ui.onNodeWithText("☀ Bright").performClick()
+        ui.onNodeWithTag("mood_1").performClick()
         editorScrollTo("Your note")
         ui.onNodeWithText("Your note").performTextInput("UI integration moment")
         editorScrollTo("Save entry")
@@ -61,7 +59,7 @@ class JournalFlowTest {
     }
     @Test fun goalsAndBackupDestinationsAreReachable() {
         val goalName = "UI daily goal ${System.nanoTime()}"
-        waitFor("Your moments")
+        ui.waitUntil(30_000) { ui.onAllNodesWithTag("nav_more").fetchSemanticsNodes().isNotEmpty() }
         ui.onNodeWithTag("nav_more").performClick()
         ui.onNodeWithText("Goals & streaks").performClick()
         ui.onNodeWithText("New goal").performClick()
@@ -83,7 +81,7 @@ class JournalFlowTest {
         ui.onNodeWithText("Select backup to restore").assertIsDisplayed()
     }
     @Test fun managementSettingsAndPrivacyRoutesOpen() {
-        waitFor("Your moments")
+        ui.waitUntil(30_000) { ui.onAllNodesWithTag("nav_more").fetchSemanticsNodes().isNotEmpty() }
         ui.onNodeWithTag("nav_more").performClick()
         val destinations = listOf(
             "Moods" to "Moods", "Activities" to "Activities", "Activity groups" to "Activity groups",

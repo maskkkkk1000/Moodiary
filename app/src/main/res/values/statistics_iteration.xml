@@ -1,0 +1,15 @@
+<resources>
+    <string name="stats_this_week">This week</string><string name="stats_this_month">This month</string><string name="stats_custom">Custom range</string>
+    <string name="stats_habit_goals">Habit goal completion</string><string name="stats_binary_goals">Small goal completion</string>
+    <string name="stats_moods">Moods · %d</string><string name="stats_activities">Activities · %d</string><string name="stats_modules">Modules · %d</string><string name="stats_goals">Small goals · %d</string>
+    <string name="stats_filter_hint">For moods, activities and small goals, 0 selected means all. Multiple activities match ANY selected activity (OR); mood and activity filters combine.</string>
+    <string name="stats_reset">Reset filters</string><string name="stats_write_error">Could not save filters. Try again.</string><string name="stats_error">Statistics could not be loaded. Check the date range, retry, or reset filters.</string>
+    <string name="stats_entry_count">%d entries</string><string name="stats_no_modules">Choose a module to explore your records.</string><string name="stats_show_more">Show more (%1$d of %2$d)</string>
+    <string name="stats_filter_title">Choose what matters to you</string><string name="stats_all">All</string><string name="stats_no_options">No records yet.</string><string name="stats_done">Done</string>
+    <string name="stats_start">Start date (YYYY-MM-DD)</string><string name="stats_end">End date (YYYY-MM-DD)</string><string name="stats_invalid_range">Enter valid dates with start on or before end.</string><string name="stats_apply">Apply custom range</string>
+    <string name="stats_frequency">%1$s: %2$d entries · %3$d days</string><string name="stats_combination">%1$s · %2$d observations · mean %3$s · comparison %4$s</string>
+    <string name="stats_goal_independent">Goal results are independent of journal entries. Date filters apply; mood and activity filters only affect journal statistics.</string>
+    <string name="stats_binary_definition">Completion = successes / recorded outcomes. Unrecorded days are excluded. Opportunities begin on creation day, or the earliest explicit historical result.</string>
+    <string name="stats_weekly">Weekly completion</string><string name="stats_monthly">Monthly completion</string><string name="stats_trend_limit">Trends show up to the latest 104 weeks / 36 months. Totals use the entire selected range.</string>
+    <string name="stats_binary_counts">Success %1$d · not achieved %2$d · recorded %3$d · unset %4$d</string><string name="stats_rate">Completion: %s%%</string>
+</resources>

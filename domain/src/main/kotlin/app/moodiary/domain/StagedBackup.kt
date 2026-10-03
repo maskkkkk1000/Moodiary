@@ -46,9 +46,9 @@ fun stageBackup(archive: File, parent: File, limits: BackupLimits = BackupLimits
         }
         fun required(path: String) = requireNotNull(files.remove(path)) { "Missing $path" }
         val metadata = required("metadata.json").inputStream().use { BackupCodec.json.decodeFromStream<BackupMetadata>(it) }
-        require(metadata.formatVersion == BackupCodec.FORMAT_VERSION) { "Unsupported backup format ${metadata.formatVersion}" }
+        BackupCodec.requireSupportedFormat(metadata.formatVersion)
         Instant.parse(metadata.createdAt)
-        require(metadata.platform == "android" && metadata.appVersion.isNotBlank()) { "Invalid metadata" }
+        require(metadata.platform == "android" && metadata.appVersion.isNotBlank() && metadata.appVersion.length <= 100) { "Invalid metadata" }
         val data = required("database.json").inputStream().use { BackupCodec.json.decodeFromStream<JournalData>(it) }
         val settings = required("settings.json").inputStream().use { BackupCodec.json.decodeFromStream<AppPreferences>(it) }
         DataValidation.requireValid(data, settings)

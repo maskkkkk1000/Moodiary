@@ -47,7 +47,7 @@ class ReminderWorker @AssistedInject constructor(
             // long offline period. A delayed reminder up to six hours is still useful.
             val age = Duration.between(due, now).toMillis()
             if (signatureMatches && occurrenceValid && inputData.getString(ReminderScheduler.KEY_ZONE) == zone.id && age in 0..ReminderScheduler.LATE_WINDOW.toMillis()) {
-                if (notificationsAllowed()) notify(id, due.toEpochMilli(), reminder!!.message)
+                if (notificationsAllowed()) notify(id, due.toEpochMilli(), reminder!!)
             }
             scheduler.reconcile()
             Result.success()
@@ -64,17 +64,19 @@ class ReminderWorker @AssistedInject constructor(
         (Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) &&
             NotificationManagerCompat.from(context).areNotificationsEnabled()
 
-    private fun notify(id: Long, due: Long, message: String) {
+    private fun notify(id: Long, due: Long, reminder: app.moodiary.domain.Reminder) {
         val manager = context.getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(NotificationChannel(CHANNEL, context.localizedString(R.string.notification_channel), NotificationManager.IMPORTANCE_DEFAULT))
         val launch = context.packageManager.getLaunchIntentForPackage(context.packageName)
             ?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP) ?: return
+        launch.putExtra(app.moodiary.StartupNavigation.EXTRA_DESTINATION, if (reminder.type == app.moodiary.domain.ReminderType.GOAL) "goals" else "entry")
+        launch.putExtra(app.moodiary.StartupNavigation.EXTRA_TARGET_ID, reminder.targetId ?: 0)
         val action = PendingIntent.getActivity(context, id.hashCode(), launch, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val public = NotificationCompat.Builder(context, CHANNEL).setSmallIcon(R.drawable.ic_moodiary)
             .setContentTitle("Moodiary").setContentText(context.localizedString(R.string.notification_public)).build()
         val notification = NotificationCompat.Builder(context, CHANNEL)
             .setSmallIcon(R.drawable.ic_moodiary).setContentTitle("Moodiary")
-            .setContentText(message).setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setContentText(reminder.message).setStyle(NotificationCompat.BigTextStyle().bigText(reminder.message))
             .setContentIntent(action).setAutoCancel(true).setOnlyAlertOnce(true)
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE).setPublicVersion(public).build()
         // Permission can be revoked between the check and notify(). The next occurrence remains

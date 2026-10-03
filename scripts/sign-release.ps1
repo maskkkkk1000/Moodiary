@@ -1,7 +1,7 @@
 param(
     [string]$SigningDirectory = (Join-Path $env:USERPROFILE '.moodiary-signing'),
     [string]$UnsignedApk = (Join-Path $PSScriptRoot '../app/build/outputs/apk/release/app-release-unsigned.apk'),
-    [string]$OutputApk = (Join-Path $PSScriptRoot '../app/build/outputs/apk/release/Moodiary-v0.1.0.apk')
+    [string]$OutputApk = (Join-Path $PSScriptRoot '../app/build/outputs/apk/release/Moodiary-v0.2.0.apk')
 )
 $ErrorActionPreference = 'Stop'
 # Build first. Never generate or replace a signing key implicitly.

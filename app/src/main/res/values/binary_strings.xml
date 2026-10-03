@@ -1,0 +1,30 @@
+<resources>
+    <string name="binary_restore_preview">Small goals: %1$d; daily results: %2$d.</string>
+    <string name="binary_title">Today’s small goals</string>
+    <string name="binary_intro">A small intention, a simple answer. Unrecorded days are not failures.</string>
+    <string name="binary_create">New small goal</string>
+    <string name="binary_edit">Edit small goal</string>
+    <string name="binary_name">Goal name</string>
+    <string name="binary_description">Description (optional)</string>
+    <string name="binary_save">Save small goal</string>
+    <string name="binary_date">Record date (YYYY-MM-DD)</string>
+    <string name="binary_invalid_date">Choose a valid date up to today. Existing future results can still be changed or cleared.</string>
+    <string name="binary_tap_hint">Tap the selected answer again to clear it.</string>
+    <string name="binary_today">Today</string>
+    <string name="binary_active">Active</string>
+    <string name="binary_archived">Archived</string>
+    <string name="binary_success">Success</string>
+    <string name="binary_failed">Not achieved</string>
+    <string name="binary_unset">Not recorded</string>
+    <string name="binary_archive">Archive</string>
+    <string name="binary_restore">Restore</string>
+    <string name="binary_delete">Delete</string>
+    <string name="binary_delete_title">Delete this small goal?</string>
+    <string name="binary_delete_hint">Only a goal without recorded results can be deleted. Archive a goal to keep its history.</string>
+    <string name="binary_move_up">Move up</string>
+    <string name="binary_move_down">Move down</string>
+    <string name="binary_empty">No small goals yet</string>
+    <string name="binary_empty_hint">Create one small thing you would like to do today.</string>
+    <string name="binary_empty_archive">No archived small goals</string>
+    <string name="binary_statistics">View statistics</string>
+</resources>

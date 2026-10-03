@@ -18,6 +18,9 @@ import java.time.ZoneId
 @Serializable data class Goal(val id: Long = 0, val name: String, val linkedActivityId: Long? = null, val goalType: GoalType = GoalType.DAILY, val targetCount: Int = 1, val startDate: String = LocalDate.now().toString(), val endDate: String? = null, val isArchived: Boolean = false, val createdAt: Long = System.currentTimeMillis(), val updatedAt: Long = createdAt)
 @Serializable data class GoalSchedule(val goalId: Long, val dayOfWeek: Int)
 @Serializable data class GoalCompletion(val id: Long = 0, val goalId: Long, val date: String, val completedAt: Long = System.currentTimeMillis(), val source: CompletionSource = CompletionSource.MANUAL)
+/** Independent daily yes/no goals. A missing record means UNSET, never failure. */
+@Serializable data class BinaryGoal(val id: Long = 0, val name: String, val icon: String = "🎯", val description: String = "", val sortOrder: Int = 0, val isArchived: Boolean = false, val createdAt: Long = System.currentTimeMillis(), val updatedAt: Long = createdAt)
+@Serializable data class BinaryGoalRecord(val id: Long = 0, val goalId: Long, val date: String, val value: Int, val createdAt: Long = System.currentTimeMillis(), val updatedAt: Long = createdAt)
 @Serializable enum class ReminderType { DIARY, GOAL }
 @Serializable data class Reminder(val id: Long = 0, val type: ReminderType = ReminderType.DIARY, val targetId: Long? = null, val hour: Int = 20, val minute: Int = 0, val daysOfWeek: Set<Int> = (1..7).toSet(), val message: String = "Take a moment to record your day", val enabled: Boolean = true, val createdAt: Long = System.currentTimeMillis(), val updatedAt: Long = createdAt)
 @Serializable data class NoteTemplate(val id: Long = 0, val name: String, val content: String, val sortOrder: Int = 0, val isArchived: Boolean = false)
@@ -34,7 +37,9 @@ import java.time.ZoneId
     val completions: List<GoalCompletion> = emptyList(),
     val reminders: List<Reminder> = emptyList(),
     val templates: List<NoteTemplate> = emptyList(),
-    val importantDays: List<ImportantDay> = emptyList()
+    val importantDays: List<ImportantDay> = emptyList(),
+    val binaryGoals: List<BinaryGoal> = emptyList(),
+    val binaryGoalRecords: List<BinaryGoalRecord> = emptyList()
 )
 @Serializable data class AppPreferences(
     val theme: String = "SYSTEM", val palette: String = "FOREST", val aggregation: String = "AVERAGE",

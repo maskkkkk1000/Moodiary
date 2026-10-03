@@ -24,6 +24,13 @@ interface JournalDao {
     @Query("SELECT * FROM reminders ORDER BY hour, minute, id") suspend fun reminders(): List<ReminderEntity>
     @Query("SELECT * FROM note_templates ORDER BY sortOrder, id") suspend fun templates(): List<NoteTemplateEntity>
     @Query("SELECT * FROM important_days ORDER BY date, id") suspend fun importantDays(): List<ImportantDayEntity>
+    @Query("SELECT * FROM binary_goals ORDER BY sortOrder, id") suspend fun binaryGoals(): List<BinaryGoalEntity>
+    @Query("SELECT * FROM binary_goal_records ORDER BY date, goalId") suspend fun binaryGoalRecords(): List<BinaryGoalRecordEntity>
+    @Query("SELECT * FROM binary_goals WHERE id = :id") suspend fun binaryGoal(id: Long): BinaryGoalEntity?
+    @Query("SELECT * FROM binary_goal_records WHERE goalId = :goalId AND date = :date") suspend fun binaryGoalRecord(goalId: Long, date: String): BinaryGoalRecordEntity?
+    @Query("SELECT EXISTS(SELECT 1 FROM binary_goal_records WHERE goalId = :goalId)") suspend fun hasBinaryGoalRecords(goalId: Long): Boolean
+    @Query("SELECT * FROM binary_goal_records WHERE date >= :from AND date <= :through ORDER BY date, goalId")
+    suspend fun binaryGoalRecordsInRange(from: String, through: String): List<BinaryGoalRecordEntity>
     @Query("SELECT * FROM entries WHERE id = :id") suspend fun entry(id: Long): EntryEntity?
     @Query("SELECT * FROM moods WHERE id = :id") suspend fun mood(id: Long): MoodEntity?
     @Query("SELECT * FROM activity_groups WHERE id = :id") suspend fun group(id: Long): ActivityGroupEntity?
@@ -59,6 +66,8 @@ interface JournalDao {
     @Upsert suspend fun upsert(value: ImportantDayEntity): Long
     @Upsert suspend fun upsert(value: GoalCompletionEntity): Long
     @Upsert suspend fun upsert(value: RepositoryMetadataEntity)
+    @Upsert suspend fun upsert(value: BinaryGoalEntity): Long
+    @Upsert suspend fun upsert(value: BinaryGoalRecordEntity): Long
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertEntryActivities(values: List<EntryActivityEntity>)
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertPhotos(values: List<EntryPhotoEntity>)
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertSchedules(values: List<GoalScheduleEntity>)
@@ -71,6 +80,8 @@ interface JournalDao {
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertReminders(values: List<ReminderEntity>)
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertTemplates(values: List<NoteTemplateEntity>)
     @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertImportantDays(values: List<ImportantDayEntity>)
+    @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertBinaryGoals(values: List<BinaryGoalEntity>)
+    @Insert(onConflict = OnConflictStrategy.ABORT) suspend fun insertBinaryGoalRecords(values: List<BinaryGoalRecordEntity>)
 
     @Query("DELETE FROM entries WHERE id = :id") suspend fun deleteEntry(id: Long)
     @Query("DELETE FROM entry_activities WHERE entryId = :id") suspend fun clearEntryActivities(id: Long)
@@ -80,6 +91,8 @@ interface JournalDao {
     @Query("DELETE FROM reminders WHERE id = :id") suspend fun deleteReminder(id: Long)
     @Query("DELETE FROM note_templates WHERE id = :id") suspend fun deleteTemplate(id: Long)
     @Query("DELETE FROM important_days WHERE id = :id") suspend fun deleteImportantDay(id: Long)
+    @Query("DELETE FROM binary_goals WHERE id = :id") suspend fun deleteBinaryGoal(id: Long)
+    @Query("DELETE FROM binary_goal_records WHERE goalId = :goalId AND date = :date") suspend fun deleteBinaryGoalRecord(goalId: Long, date: String)
 
     @Query("DELETE FROM entry_activities") suspend fun clearEntryActivities()
     @Query("DELETE FROM entry_photos") suspend fun clearPhotos()
@@ -93,4 +106,6 @@ interface JournalDao {
     @Query("DELETE FROM moods") suspend fun clearMoods()
     @Query("DELETE FROM note_templates") suspend fun clearTemplates()
     @Query("DELETE FROM important_days") suspend fun clearImportantDays()
+    @Query("DELETE FROM binary_goal_records") suspend fun clearBinaryGoalRecords()
+    @Query("DELETE FROM binary_goals") suspend fun clearBinaryGoals()
 }

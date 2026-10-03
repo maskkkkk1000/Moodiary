@@ -1,10 +1,10 @@
 # Moodiary
 
-本地优先的 Android 心情日记应用。项目规范：[`Moodiary_Codex_Master_Plan.md`](Moodiary_Codex_Master_Plan.md)。当前版本标识保留为 `0.1.0`，不以文件存在代替发布验证。
+本地优先的 Android 心情日记应用。项目规范：[`Moodiary_Codex_Master_Plan.md`](Moodiary_Codex_Master_Plan.md)，第一轮迭代规范：[`moodiary_plan2.md`](moodiary_plan2.md)。当前源码版本为 `0.2.0`，不以文件存在代替发布验证。
 
 ## 构建与测试
 
-当前版本：0.1.0（versionCode 1），Room schema 1；提供签名 APK 分发，不是 1.0。[发行页](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.1.0)及[安装迁移/签名说明](docs/INSTALL_AND_SIGNING.md)。版本规划见 [ROADMAP](docs/ROADMAP.md)，变更见 [CHANGELOG](CHANGELOG.md)，协作规则见 [版本管理约定](docs/VERSION_CONTROL.md)。
+当前源码：0.2.0（versionCode 2），Room schema 2，备份格式 2（兼容读取格式 1）。本轮验收记录见 [ITERATION_1](docs/ITERATION_1.md)；Git 标签与 GitHub APK 发布分别管理，实际可下载版本以[发行页](https://github.com/maskkkkk1000/Moodiary/releases)为准。参见[安装迁移/签名说明](docs/INSTALL_AND_SIGNING.md)、[ROADMAP](docs/ROADMAP.md)、[CHANGELOG](CHANGELOG.md)和[版本管理约定](docs/VERSION_CONTROL.md)。
 
 环境：JDK 17、Android SDK 35、Build Tools 35.0.0、Gradle 8.13。当前工作目录已安装可移植工具，不需要修改系统环境变量。
 
@@ -37,9 +37,11 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 日记增删改与多条/天、照片、时间线、日历、搜索筛选；可定制情绪/活动/分组、模板、目标联动与连续记录；统计和次日关联；提醒、重要日、成就、主题与语言切换；PIN/生物识别；本地备份恢复、自动备份、可选 Drive、JSON/CSV/PDF 导出。
 
+0.2.0 增加柔和卡片与心情选择交互、Emoji/内置图标选择器、统一统计筛选和独立每日小目标。正常启动直接记录或恢复合法草稿；通知保留指定入口。统计可选择日期、心情、活动及模块，设置会保存，多个活动按 OR 筛选。小目标可记录成功、未做到或未记录，完成率只以已记录结果为分母；支持历史补录、归档恢复和周/月趋势。
+
 使用 Kotlin、Jetpack Compose、Material 3、Navigation Compose、Hilt、Room、DataStore、WorkManager、Coroutines/Flow，采用 MVVM 和 repository 架构。
 
-工具下载、校验和、SDK 许可记录及设备设置见 [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md)。设计、日期、统计与恢复协议见 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)。实际通过的测试、功能差距与风险以 [`docs/IMPLEMENTATION_STATUS.md`](docs/IMPLEMENTATION_STATUS.md) 为准。
+工具下载、校验和、SDK 许可记录及设备设置见 [`docs/TOOLCHAIN.md`](docs/TOOLCHAIN.md)。设计、日期、统计与恢复协议见 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)。基线验收见 [`docs/IMPLEMENTATION_STATUS.md`](docs/IMPLEMENTATION_STATUS.md)，新增行为、测试和限制见 [`docs/ITERATION_1.md`](docs/ITERATION_1.md)。
 
 ## 应用结构
 
@@ -70,13 +72,13 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 - 备份 ZIP 包含明文日记和照片，请保存到可信位置。PIN 和云端凭据不进入归档。
 - 替换恢复必须明确确认。归档完整验证后才修改数据，并保留中断恢复所需的回滚记录。
-- 初始 Room 结构为 v1；将来每次升级必须增加版本、提供显式迁移和回归测试。
+- Room 1 → 2 使用显式增量迁移，保留旧日记、关联、设置与照片；历史 schema JSON 均保留。禁止破坏性回退和直接降级。
 - 统计展示观察性关联和样本量，不宣称因果关系。
 - 系统省电策略可能延迟提醒和自动备份；提醒不承诺精确到分钟。
 
 ## Backup / Restore
 
-在“更多 → 备份与恢复”使用系统文件选择器保存完整 ZIP。归档包含结构化日记、设置及应用管理的照片；语言设置、PIN 和云凭据不随归档迁移。自动备份需选择并授权目标目录，系统后台限制可能影响执行时间。
+在“更多 → 备份与恢复”使用系统文件选择器保存完整 ZIP。归档包含结构化日记、小目标及结果、设置和应用管理的照片；语言、统计筛选、PIN 和云凭据不随归档迁移。自动备份需选择并授权目标目录，系统后台限制可能影响执行时间。0.2.0 可恢复 0.1.0 旧备份，缺失小目标时按空列表处理；0.1.0 无法读取新版格式 2 备份。
 
 恢复会替换当前日记，先备份现有数据，再选择归档并明确确认。应用先校验版本、内容和媒体路径，再执行替换；失败或中断时使用回滚记录保护原数据。JSON/CSV/PDF 是导出格式，不应当作完整恢复归档。
 
@@ -92,5 +94,6 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - 已收到用户“除 OAuth 外真机功能正常”的反馈；跨厂商后台策略、长期使用及完整 TalkBack 仍需扩大验收范围。
 - PIN 是界面访问控制，不会加密数据库；备份与导出文件是明文。
 - 已测试 50,000 条合成短日记；大量高分辨率照片/长文本仍需压力测试，界面数据快照尚未全面分页化。
+- 小目标每日提醒和独立 CSV 留待后续；本轮已接入完整 ZIP、JSON 与 PDF 摘要。习惯目标和小目标独立于日记，遵循日期/目标筛选，心情/活动筛选只影响日记统计。
 - 部分底层技术诊断仍可能为英文，用户自定义内容和已保存默认名称不自动翻译。
 - Gradle 默认输出未签名 APK；发行包另用仓库外的长期密钥签名。Debug 用户需先备份再迁移，见 [安装说明](docs/INSTALL_AND_SIGNING.md)。完整发布前执行 [发布检查单](docs/RELEASE_CHECKLIST.md)。

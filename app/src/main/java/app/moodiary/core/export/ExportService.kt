@@ -75,6 +75,21 @@ class ExportService @Inject constructor(@ApplicationContext private val context:
             val links = data.entryActivities.groupBy { it.entryId }
             val entryIds = entries.mapTo(HashSet()) { it.id }
             text(context.localizedString(R.string.core_pdf_activity_counts, data.entryActivities.filter { it.entryId in entryIds }.groupingBy { it.activityId }.eachCount().entries.joinToString { context.localizedString(R.string.core_pdf_count_item, activityNames[it.key].orEmpty(), it.value) }))
+            if (data.binaryGoals.isNotEmpty()) {
+                text(context.localizedString(R.string.export_binary_goal_title), 16f)
+                text(context.localizedString(R.string.export_binary_goal_denominator))
+                val outcomes = data.binaryGoalRecords.filter {
+                    val date = java.time.LocalDate.parse(it.date)
+                    (filter.from == null || date >= filter.from) && (filter.through == null || date <= filter.through)
+                }.groupBy { it.goalId }
+                data.binaryGoals.sortedWith(compareBy<BinaryGoal> { it.sortOrder }.thenBy { it.id }).forEach { goal ->
+                    val records = outcomes[goal.id].orEmpty()
+                    val success = records.count { it.value == 1 }
+                    val rate = if (records.isEmpty()) context.localizedString(R.string.export_binary_goal_unrecorded)
+                        else String.format(java.util.Locale.getDefault(), "%.1f%%", success * 100.0 / records.size)
+                    text(context.localizedString(R.string.export_binary_goal_summary, goal.name, success, records.size - success, rate))
+                }
+            }
             val photoByEntry = data.photos.groupBy { it.entryId }
             entries.forEach { entry ->
                 text("${Instant.ofEpochMilli(entry.timestamp).atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm"))} · ${entry.moodName} (${entry.moodScore})", 14f)

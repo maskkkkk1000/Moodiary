@@ -61,7 +61,8 @@ class JournalRepository @Inject constructor(private val database: MoodiaryDataba
         entryActivities = dao.entryActivities().map { it.model() }, photos = dao.photos().map { it.model() },
         goals = dao.goals().map { it.model() }, schedules = dao.schedules().map { it.model() },
         completions = dao.completions().map { it.model() }, reminders = dao.reminders().map { it.model() },
-        templates = dao.templates().map { it.model() }, importantDays = dao.importantDays().map { it.model() }
+        templates = dao.templates().map { it.model() }, importantDays = dao.importantDays().map { it.model() },
+        binaryGoals = dao.binaryGoals().map { it.model() }, binaryGoalRecords = dao.binaryGoalRecords().map { it.model() }
     )
 
     fun observeEntries(from: LocalDate, through: LocalDate, zone: ZoneId = ZoneId.systemDefault()): Flow<List<Entry>> {
@@ -190,6 +191,67 @@ class JournalRepository @Inject constructor(private val database: MoodiaryDataba
         reconcileLinked(goalIds = setOf(goalId))
     }
 
+    suspend fun saveBinaryGoal(value: BinaryGoal): Long = mutate {
+        requireName(value.name, "Small goal")
+        require(value.icon.isNotBlank() && value.icon.length <= 64) { "Choose a short goal icon" }
+        require(value.description.length <= 1_000_000) { "Goal description is too long" }
+        require(value.sortOrder >= 0) { "Goal order cannot be negative" }
+        val previous = existing(value.id) { dao.binaryGoal(value.id) }
+        val now = nextUpdate(previous?.createdAt, previous?.updatedAt)
+        val result = dao.upsert(value.copy(name = value.name.trim(), createdAt = previous?.createdAt ?: now, updatedAt = now).entity())
+        if (value.id == 0L) result else value.id
+    }
+
+    /** null removes the outcome (UNSET); 0 is an explicitly recorded failure, 1 success.
+     * The repository lock and database unique index make concurrent same-day changes idempotent.
+     */
+    suspend fun setBinaryGoalRecord(goalId: Long, date: String, value: Int?) = mutate {
+        val day = requireDate(date)
+        require(value == null || value in 0..1) { "A small goal result must be success or failure" }
+        val goal = requireNotNull(dao.binaryGoal(goalId)) { "This small goal no longer exists" }
+        val previous = dao.binaryGoalRecord(goalId, date)
+        if (value == null) {
+            dao.deleteBinaryGoalRecord(goalId, date)
+        } else {
+            // Clock rollback/timezone changes must not make an existing outcome impossible to edit.
+            require(previous != null || day <= LocalDate.now()) { "Cannot record a result for a future date" }
+            require(previous != null || !goal.isArchived) { "Restore this small goal before recording another result" }
+            val now = nextUpdate(previous?.createdAt, previous?.updatedAt)
+            dao.upsert(BinaryGoalRecordEntity(previous?.id ?: 0, goalId, date, value, previous?.createdAt ?: now, now))
+        }
+        Unit
+    }
+
+    /** A goal with history may only be archived, never removed together with its outcomes. */
+    suspend fun deleteBinaryGoalIfUnused(id: Long) = mutate {
+        requireNotNull(dao.binaryGoal(id)) { "This small goal no longer exists" }
+        require(!dao.hasBinaryGoalRecords(id)) { "This small goal has recorded results; archive it to preserve history" }
+        dao.deleteBinaryGoal(id)
+    }
+
+    /** Atomic reorder of exactly the displayed goals; hidden archived goals keep their order. */
+    suspend fun reorderBinaryGoals(ids: List<Long>) = mutate {
+        require(ids.distinct().size == ids.size) { "Duplicate small goal in ordering" }
+        ids.forEachIndexed { order, id ->
+            val goal = requireNotNull(dao.binaryGoal(id)) { "This small goal no longer exists" }
+            dao.upsert(goal.copy(sortOrder = order, updatedAt = nextUpdate(goal.createdAt, goal.updatedAt)))
+        }
+    }
+
+    suspend fun moveBinaryGoal(id: Long, direction: Int) = mutate {
+        require(direction == -1 || direction == 1) { "Move one position at a time" }
+        val goal = requireNotNull(dao.binaryGoal(id)) { "This small goal no longer exists" }
+        val peers = dao.binaryGoals().filter { it.isArchived == goal.isArchived }.toMutableList()
+        val from = peers.indexOfFirst { it.id == id }
+        val to = from + direction
+        if (to in peers.indices) {
+            java.util.Collections.swap(peers, from, to)
+            peers.forEachIndexed { order, value ->
+                dao.upsert(value.copy(sortOrder = order, updatedAt = nextUpdate(value.createdAt, value.updatedAt)))
+            }
+        }
+    }
+
     suspend fun saveReminder(value: Reminder): Long = mutate {
         require(value.hour in 0..23 && value.minute in 0..59) { "Choose a valid reminder time" }
         require(value.daysOfWeek.isNotEmpty() && value.daysOfWeek.all { it in 1..7 }) { "Select valid reminder weekdays" }
@@ -228,6 +290,7 @@ class JournalRepository @Inject constructor(private val database: MoodiaryDataba
     /** Validation happens before any DELETE. Foreign-key/uniqueness failures roll back the whole replacement. */
     suspend fun replaceAll(data: JournalData) = mutate {
         DataValidation.requireValid(data)
+        dao.clearBinaryGoalRecords(); dao.clearBinaryGoals()
         dao.clearEntryActivities(); dao.clearPhotos(); dao.clearCompletions(); dao.clearSchedules()
         dao.clearReminders(); dao.clearEntries(); dao.clearGoals(); dao.clearActivities(); dao.clearGroups()
         dao.clearMoods(); dao.clearTemplates(); dao.clearImportantDays()
@@ -243,6 +306,8 @@ class JournalRepository @Inject constructor(private val database: MoodiaryDataba
         dao.insertReminders(data.reminders.map { it.entity() })
         dao.insertTemplates(data.templates.map { it.entity() })
         dao.insertImportantDays(data.importantDays.map { it.entity() })
+        dao.insertBinaryGoals(data.binaryGoals.map { it.entity() })
+        dao.insertBinaryGoalRecords(data.binaryGoalRecords.map { it.entity() })
         dao.upsert(RepositoryMetadataEntity(SEEDED, "true"))
         reconcileLinked()
     }

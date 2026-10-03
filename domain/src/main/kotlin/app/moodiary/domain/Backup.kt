@@ -41,6 +41,8 @@ object DataValidation {
         val goals = ids("goal", data.goals.map { it.id }); ids("photo", data.photos.map { it.id })
         ids("completion", data.completions.map { it.id }); ids("reminder", data.reminders.map { it.id })
         ids("template", data.templates.map { it.id }); ids("important day", data.importantDays.map { it.id })
+        val binaryGoals = ids("binary goal", data.binaryGoals.map { it.id })
+        ids("binary goal record", data.binaryGoalRecords.map { it.id })
         check(data.moods.isNotEmpty() && data.moods.any { !it.isArchived }, "At least one active mood is required")
         data.moods.forEach { name(it.name, "Mood name"); icon(it.icon, "Mood icon"); color(it.color, "Mood color"); check(it.score.isFinite() && it.score in -1_000.0..1_000.0, "Mood score must be finite and between -1000 and 1000"); check(it.sortOrder >= 0, "Mood order cannot be negative"); time(it.createdAt, it.updatedAt, "Mood") }
         data.groups.forEach { name(it.name, "Group name"); check(it.sortOrder >= 0, "Group order cannot be negative"); time(it.createdAt, it.updatedAt, "Group") }
@@ -73,6 +75,16 @@ object DataValidation {
         data.reminders.forEach { check(it.hour in 0..23 && it.minute in 0..59, "Reminder time is invalid"); check(it.daysOfWeek.isNotEmpty() && it.daysOfWeek.all { day -> day in 1..7 }, "Reminder weekdays are invalid"); check((it.type == ReminderType.DIARY && it.targetId == null) || (it.type == ReminderType.GOAL && it.targetId in goals), "Reminder target is invalid"); text(it.message, "Reminder message"); time(it.createdAt, it.updatedAt, "Reminder") }
         data.templates.forEach { name(it.name, "Template name"); text(it.content, "Template content"); check(it.sortOrder >= 0, "Template order cannot be negative") }
         data.importantDays.forEach { date(it.date, "Important day"); name(it.title, "Important day title"); icon(it.icon, "Important day icon"); text(it.note, "Important day note") }
+        data.binaryGoals.forEach {
+            name(it.name, "Small goal name"); icon(it.icon, "Small goal icon"); text(it.description, "Small goal description")
+            check(it.sortOrder >= 0, "Small goal order cannot be negative"); time(it.createdAt, it.updatedAt, "Small goal")
+        }
+        check(data.binaryGoalRecords.map { it.goalId to it.date }.distinct().size == data.binaryGoalRecords.size, "Duplicate small goal/date result")
+        data.binaryGoalRecords.forEach {
+            check(it.goalId in binaryGoals, "Small goal result refers to a missing goal")
+            date(it.date, "Small goal result date"); check(it.value in 0..1, "Small goal result must be 0 or 1")
+            time(it.createdAt, it.updatedAt, "Small goal result")
+        }
         check(preferences.theme in setOf("SYSTEM", "LIGHT", "DARK"), "Unsupported theme")
         check(preferences.palette in setOf("FOREST", "OCEAN", "PLUM", "ROSE", "SUNSET"), "Unsupported palette")
         check(preferences.aggregation in setOf("AVERAGE", "LATEST", "HIGHEST", "LOWEST"), "Unsupported daily aggregation")
@@ -91,13 +103,20 @@ object DataValidation {
     private const val MAX_TIMESTAMP = 253402300799999L
 }
 
-@Serializable data class BackupMetadata(val formatVersion: Int, val createdAt: String, val appVersion: String = "0.1.0", val platform: String = "android", val photoSha256: Map<String, String> = emptyMap())
+@Serializable data class BackupMetadata(val formatVersion: Int, val createdAt: String, val appVersion: String = "0.2.0", val platform: String = "android", val photoSha256: Map<String, String> = emptyMap())
 data class BackupLimits(val totalBytes: Long = 256L * 1024 * 1024, val photoBytes: Long = 32L * 1024 * 1024, val databaseBytes: Long = 64L * 1024 * 1024, val fileCount: Int = 20_003)
 data class ValidatedBackup(val data: JournalData, val preferences: AppPreferences, val photos: Map<String, ByteArray>, val metadata: BackupMetadata)
 
 object BackupCodec {
     val json = Json { encodeDefaults = true; ignoreUnknownKeys = false; isLenient = false; allowSpecialFloatingPointValues = false; prettyPrint = true }
-    const val FORMAT_VERSION = 1
+    // Archive size limits apply to uncompressed content. Keep indentation out of the database
+    // member so large journals fit without weakening those limits; standalone JSON stays readable.
+    private val archiveDatabaseJson = Json(json) { prettyPrint = false }
+    const val FORMAT_VERSION = 2
+    // Version 1 has no binary goals; JournalData defaults those two missing arrays to empty.
+    fun requireSupportedFormat(version: Int) {
+        require(version in 1..FORMAT_VERSION) { "Unsupported backup format $version; supported versions are 1–$FORMAT_VERSION" }
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     fun write(output: OutputStream, data: JournalData, preferences: AppPreferences, openPhoto: (String) -> InputStream, limits: BackupLimits = BackupLimits()) {
@@ -121,7 +140,7 @@ object BackupCodec {
                     zip.write(bytes, offset, length)
                 }
             }
-            json.encodeToStream(data, bounded)
+            archiveDatabaseJson.encodeToStream(data, bounded)
             zip.closeEntry()
             put("settings.json", json.encodeToString(preferences).toByteArray(Charsets.UTF_8), 65536)
             data.photos.sortedBy { it.localPath }.forEach { photo ->
@@ -161,7 +180,7 @@ object BackupCodec {
         }
         fun required(path: String): String = requireNotNull(files.remove(path)) { "Missing $path" }.toString(Charsets.UTF_8)
         val metadata = json.decodeFromString<BackupMetadata>(required("metadata.json"))
-        require(metadata.formatVersion == FORMAT_VERSION) { "Unsupported backup format ${metadata.formatVersion}; supported version is $FORMAT_VERSION" }
+        requireSupportedFormat(metadata.formatVersion)
         Instant.parse(metadata.createdAt)
         require(metadata.platform == "android" && metadata.appVersion.isNotBlank() && metadata.appVersion.length <= 100) { "Invalid backup metadata" }
         val data = json.decodeFromString<JournalData>(required("database.json"))

@@ -24,7 +24,7 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class PreparedRestore(val file: File, val entries: Int, val photos: Int, val createdAt: String)
+data class PreparedRestore(val file: File, val entries: Int, val photos: Int, val createdAt: String, val binaryGoals: Int = 0, val binaryGoalRecords: Int = 0)
 
 /** Managed media is staged under fresh filenames; Room replacement is atomic. A durable rollback
  * archive and marker recover any interrupted cross-store (Room/DataStore) restore on next launch. */
@@ -68,7 +68,8 @@ data class PreparedRestore(val file: File, val entries: Int, val photos: Int, va
     private fun inspect(file: File): PreparedRestore {
         return stageBackup(file, cache).use { backup ->
             validateImages(backup)
-            PreparedRestore(file, backup.data.entries.size, backup.data.photos.size, backup.metadata.createdAt)
+            PreparedRestore(file, backup.data.entries.size, backup.data.photos.size, backup.metadata.createdAt,
+                backup.data.binaryGoals.size, backup.data.binaryGoalRecords.size)
         }
     }
     private fun validateImages(backup: StagedBackup) {
