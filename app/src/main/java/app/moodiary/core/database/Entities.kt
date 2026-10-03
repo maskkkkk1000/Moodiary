@@ -100,3 +100,19 @@ data class ImportantDayEntity(
 
 @Entity(tableName = "repository_metadata")
 data class RepositoryMetadataEntity(@PrimaryKey val key: String, val value: String)
+
+@Entity(tableName = "binary_goals")
+data class BinaryGoalEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val name: String, val icon: String, val description: String,
+    val sortOrder: Int, val isArchived: Boolean, val createdAt: Long, val updatedAt: Long
+)
+
+// RESTRICT intentionally prevents an accidental goal delete from erasing recorded outcomes.
+@Entity(tableName = "binary_goal_records", foreignKeys = [
+    ForeignKey(entity = BinaryGoalEntity::class, parentColumns = ["id"], childColumns = ["goalId"], onDelete = ForeignKey.RESTRICT)
+], indices = [Index(value = ["goalId", "date"], unique = true), Index("date")])
+data class BinaryGoalRecordEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val goalId: Long, val date: String, val value: Int, val createdAt: Long, val updatedAt: Long
+)
