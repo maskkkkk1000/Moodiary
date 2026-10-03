@@ -109,6 +109,9 @@ data class ValidatedBackup(val data: JournalData, val preferences: AppPreference
 
 object BackupCodec {
     val json = Json { encodeDefaults = true; ignoreUnknownKeys = false; isLenient = false; allowSpecialFloatingPointValues = false; prettyPrint = true }
+    // Archive size limits apply to uncompressed content. Keep indentation out of the database
+    // member so large journals fit without weakening those limits; standalone JSON stays readable.
+    private val archiveDatabaseJson = Json(json) { prettyPrint = false }
     const val FORMAT_VERSION = 2
     // Version 1 has no binary goals; JournalData defaults those two missing arrays to empty.
     fun requireSupportedFormat(version: Int) {
@@ -137,7 +140,7 @@ object BackupCodec {
                     zip.write(bytes, offset, length)
                 }
             }
-            json.encodeToStream(data, bounded)
+            archiveDatabaseJson.encodeToStream(data, bounded)
             zip.closeEntry()
             put("settings.json", json.encodeToString(preferences).toByteArray(Charsets.UTF_8), 65536)
             data.photos.sortedBy { it.localPath }.forEach { photo ->

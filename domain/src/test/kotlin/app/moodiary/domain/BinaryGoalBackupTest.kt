@@ -7,7 +7,10 @@ import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
+import java.time.LocalDate
+import java.time.ZoneOffset
 import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
 class BinaryGoalBackupTest {
@@ -23,7 +26,44 @@ class BinaryGoalBackupTest {
         assertEquals(data, restored.data)
         assertEquals(data, BackupCodec.json.decodeFromString<JournalData>(ExportCodec.json(data)))
         assertTrue(ExportCodec.json(data).contains("\"binaryGoalRecords\""))
+        assertTrue("Standalone JSON remains readable", ExportCodec.json(data).contains("\n    \"binaryGoals\""))
         staged(output.toByteArray()) { assertEquals(data, it.data) }
+    }
+
+    @Test fun thousandGoalsWithYearOfResultsRoundTripWithinDatabaseSizeLimit() {
+        val start = LocalDate.of(2024, 1, 1)
+        val dates = (0 until 365).map { start.plusDays(it.toLong()).toString() }
+        val timestamps = (0 until 365).map { start.plusDays(it.toLong()).atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() }
+        val goals = (1..1000).map { BinaryGoal(it.toLong(), "Goal $it", "📚", createdAt = timestamps.first()) }
+        val results = goals.flatMap { goal -> dates.mapIndexed { day, date ->
+            BinaryGoalRecord((goal.id - 1) * 365 + day + 1, goal.id, date, day % 2,
+                createdAt = timestamps[day], updatedAt = timestamps[day])
+        } }
+        val large = data.copy(binaryGoals = goals, binaryGoalRecords = results)
+        val expected = BinaryGoalStatistics.summarize(goals, results, start, start.plusDays(364), ZoneOffset.UTC)
+        val limits = BackupLimits()
+        assertEquals(64L * 1024 * 1024, limits.databaseBytes)
+        val directory = Files.createTempDirectory("large-binary-backup-test-").toFile()
+        try {
+            val archive = directory.resolve("archive.zip")
+            archive.outputStream().use { BackupCodec.write(it, large, AppPreferences(), { error("No photos") }, limits) }
+            ZipFile(archive).use { zip ->
+                val size = zip.getEntry("database.json").size
+                assertTrue("Database JSON must fit the unchanged 64 MiB limit: $size", size in 1..limits.databaseBytes)
+                println("BINARY_BACKUP goals=1000 rows=365000 databaseBytes=$size archiveBytes=${archive.length()}")
+            }
+            stageBackup(archive, directory, limits).use { restored ->
+                assertEquals(2, restored.metadata.formatVersion)
+                assertEquals(1000, restored.data.binaryGoals.size)
+                assertEquals(365000, restored.data.binaryGoalRecords.size)
+                assertEquals(large, restored.data)
+                val actual = BinaryGoalStatistics.summarize(restored.data.binaryGoals, restored.data.binaryGoalRecords,
+                    start, start.plusDays(364), ZoneOffset.UTC)
+                assertEquals(expected, actual)
+                assertEquals(365000, actual.total.recorded)
+                assertEquals(0L, actual.total.unset)
+            }
+        } finally { directory.deleteRecursively() }
     }
 
     @Test fun realFormatOneWithoutNewArraysLoadsAsEmptyInBothReaders() {
