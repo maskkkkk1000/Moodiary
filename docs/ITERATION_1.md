@@ -1,6 +1,6 @@
 # 第一轮迭代验收记录
 
-需求：[moodiary_plan2.md](../moodiary_plan2.md)。开发分支 `feature/iteration-1`，稳定起点 `v0.1.0`。目标版本 0.2.0；此记录不表示已经发布到 GitHub Releases。
+需求：[moodiary_plan2.md](../moodiary_plan2.md)。开发分支 `feature/iteration-1`，稳定起点 `v0.1.0`。0.2.0 源码已合并到 `main`，签名 APK 已发布到 [GitHub Releases](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.2.0)；发布验证见下文。
 
 ## 实现范围
 
@@ -47,11 +47,23 @@ Room 2 通过显式 `MIGRATION_1_2` 只新增 `binary_goals` 和 `binary_goal_re
 
 性能样本为 10/100/1000 个目标各 365 天（3650/36500/365000 条结果）。Android 分阶段耗时 154/303/917 ms，最终全量运行 66/157/1812 ms；执行在后台线程，实际设备和冷热状态会影响耗时。目标/结果全量备份往返新增压力测试：1000 目标、365000 条记录，紧凑数据库 JSON 39,779,969 字节、ZIP 4,457,839 字节，保留原有 64 MiB 数据库安全上限；逐条数据及汇总/周/月统计完全相等。
 
-发行 APK 为 `Moodiary-v0.2.0.apk`，versionName 0.2.0 / versionCode 2。使用原长期发行密钥，v2/v3 签名及 16 KB 对齐校验通过。公开证书 SHA-256：`43564ca8b3530145db25929a9a3e2762103237338204e394e1c7f2bb4598be8e`。APK SHA-256：`b1e1617a8596e28f065483a1a86233eadb119893389ae819453f24acc7a9b44d`。
+2026-10-03 初验 APK 为 `Moodiary-v0.2.0.apk`，versionName 0.2.0 / versionCode 2。使用原长期发行密钥，v2/v3 签名及 16 KB 对齐校验通过。公开证书 SHA-256：`43564ca8b3530145db25929a9a3e2762103237338204e394e1c7f2bb4598be8e`。初验产物 SHA-256：`b1e1617a8596e28f065483a1a86233eadb119893389ae819453f24acc7a9b44d`；最终发布文件为下面记录的重新构建产物。
 
 原始测试报告、模拟器截图和签名输出在本机被忽略的 `verification/iteration-1/` 及 `app/build/`、`domain/build/`。版本提交前检查完整差异、暂存文件和敏感内容；密钥、OAuth 凭据、日记/照片、备份、构建产物均不进入 Git。新增提交继续使用 GitHub noreply 邮箱。
 
-本次验收支持将 `feature/iteration-1` 合并到 `main` 并创建 annotated `v0.2.0` 标签；这是已验证的 0.2.0 源码与安装包准备，不代表 1.0 或已经上传 GitHub Release 资产。
+## APK 发布验证
+
+2026-10-04（北京时间），发布 [Moodiary v0.2.0](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.2.0)。annotated `v0.2.0` 标签对应已验证的合并提交 `58eacd1a78bca35a409b1c15f114f3ff6ff3e464`；不移动标签，不改变生产源码及版本号。
+
+发布前再次构建 Debug / Release 通过。构建清理了旧输出目录中的初验签名包，因此从相同标签源码重新签名，并将最终产物保存至独立、被 Git 忽略的 `verification/release-v0.2.0/`。最终文件与初验产物哈希不同；上述 91 项 JVM 和 28 项 Android/Compose 结果属于同一生产源码的完整验收，本次发布没有重新运行全部测试。
+
+- [最终 APK](https://github.com/maskkkkk1000/Moodiary/releases/download/v0.2.0/Moodiary-v0.2.0.apk)：15,400,294 字节；SHA-256 为 `34dc1bfa94044d208022fa16930975cbc6ce10cdf6914fa0b13bee32f908c2d0`。
+- 包名 `app.moodiary`，versionName 0.2.0 / versionCode 2，最低 Android 8.0（API 26），target API 35；无 debuggable 标记。
+- 原发行证书、v2/v3 签名、16 KB 对齐与 ZIP 完整性检查通过；资产文件名检查未发现私钥、凭据、数据库、备份或私人照片。
+- 在专用 API 35 模拟器覆盖安装最终 APK，启动与时间线检查通过；前次 0.1.0 → 0.2.0 升级验收留下的合成日记仍保留。本次未连接或修改用户真机。
+- GitHub 资产大小、服务端 SHA-256 及未登录公开下载的 SHA-256 均与本地一致；同时发布 [SHA256SUMS.txt](https://github.com/maskkkkk1000/Moodiary/releases/download/v0.2.0/SHA256SUMS.txt)。仅上传 APK 与校验文件，发行私钥、密码及设备数据不上传。
+
+发布记录和本次构建/签名输出位于本机 `verification/release-v0.2.0/`。应用仍为 0.2.0，以下限制继续适用。
 
 ## 有意保留的后续项
 

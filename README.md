@@ -1,10 +1,10 @@
 # Moodiary
 
-本地优先的 Android 心情日记应用。项目规范：[`Moodiary_Codex_Master_Plan.md`](Moodiary_Codex_Master_Plan.md)，第一轮迭代规范：[`moodiary_plan2.md`](moodiary_plan2.md)。当前源码版本为 `0.2.0`，不以文件存在代替发布验证。
+本地优先的 Android 心情日记应用。项目规范：[`Moodiary_Codex_Master_Plan.md`](Moodiary_Codex_Master_Plan.md)，第一轮迭代规范：[`moodiary_plan2.md`](moodiary_plan2.md)。当前版本为 `0.2.0`，已发布发行签名 APK：[下载安装包](https://github.com/maskkkkk1000/Moodiary/releases/download/v0.2.0/Moodiary-v0.2.0.apk)。
 
 ## 构建与测试
 
-当前源码：0.2.0（versionCode 2），Room schema 2，备份格式 2（兼容读取格式 1）。本轮验收记录见 [ITERATION_1](docs/ITERATION_1.md)；Git 标签与 GitHub APK 发布分别管理，实际可下载版本以[发行页](https://github.com/maskkkkk1000/Moodiary/releases)为准。参见[安装迁移/签名说明](docs/INSTALL_AND_SIGNING.md)、[ROADMAP](docs/ROADMAP.md)、[CHANGELOG](CHANGELOG.md)和[版本管理约定](docs/VERSION_CONTROL.md)。
+当前源码：0.2.0（versionCode 2），Room schema 2，备份格式 2（兼容读取格式 1）。本轮验收记录见 [ITERATION_1](docs/ITERATION_1.md)；[0.2.0 发行页](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.2.0)提供签名 APK、SHA-256 校验文件与发行说明。参见[安装迁移/签名说明](docs/INSTALL_AND_SIGNING.md)、[ROADMAP](docs/ROADMAP.md)、[CHANGELOG](CHANGELOG.md)和[版本管理约定](docs/VERSION_CONTROL.md)。
 
 环境：JDK 17、Android SDK 35、Build Tools 35.0.0、Gradle 8.13。当前工作目录已安装可移植工具，不需要修改系统环境变量。
 

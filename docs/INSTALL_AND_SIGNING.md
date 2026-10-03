@@ -1,14 +1,14 @@
 # 正式 APK 安装、迁移与签名
 
-发行页：https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.1.0
+发行页：[Moodiary v0.2.0](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.2.0)；[下载签名 APK](https://github.com/maskkkkk1000/Moodiary/releases/download/v0.2.0/Moodiary-v0.2.0.apk)。
 
-应用版本 0.1.0 / versionCode 1 / Room schema 1。首个签名 APK 使用现有 v0.1.0 标签对应源码，不移动标签，也不称为 V1.0。此版本提供 GitHub APK 分发，不代表已上架应用商店。
+应用版本 0.2.0 / versionCode 2 / Room schema 2 / 备份格式 2（读取 1/2）。签名 APK 使用已验证的 v0.2.0 标签对应源码，沿用 0.1.0 的发行密钥，不移动已有标签，也不称为 V1.0。此版本提供 GitHub APK 分发，不代表已上架应用商店。
 
 ## 0.2.0 升级
 
 当前源码为 0.2.0 / versionCode 2 / Room schema 2。升级包继续使用原发行密钥；已安装同一发行签名的 0.1.0 时可覆盖安装，无需卸载。更新前先保存一份完整备份。首次打开执行显式 1 → 2 迁移，原有日记和照片保留。0.2.0 可读取旧备份；新版格式 2 备份不能交给 0.1.0 恢复，数据库也不支持直接降级。
 
-版本标签不等同于 APK 已上传；以[发行列表](https://github.com/maskkkkk1000/Moodiary/releases)中的实际资产为准。本轮实现和验证边界见 [ITERATION_1](ITERATION_1.md)。下文 Debug 迁移步骤同样适用于 0.2.0，只需选择对应版本 APK。
+0.2.0 签名 APK 已于 2026-10-04（北京时间）上传，公开下载文件的 SHA-256 已核对；发行页附有 `SHA256SUMS.txt`。本轮实现和验证边界见 [ITERATION_1](ITERATION_1.md)。下文为 Debug 迁移步骤。
 
 ## 从 Debug 版迁移
 
@@ -17,7 +17,7 @@
 1. 保留旧应用，在“更多 → 备份与恢复”导出**完整 ZIP 备份**到 Downloads、电脑或可信外部目录，不能只留在应用私有目录。
 2. 确认备份文件可读取且大小合理，另存一份。重要日记建议再导出 JSON 留作核对；JSON/CSV/PDF 不能替代完整恢复 ZIP。照片多时等待备份真正完成。
 3. 只有确认备份已保存在应用外后，才卸载旧版。卸载会删除旧应用的本地数据。
-4. 从发行页下载 `Moodiary-v0.1.0.apk`，安装并打开。
+4. 从发行页下载 `Moodiary-v0.2.0.apk`，安装并打开。
 5. 在“备份与恢复”选择 ZIP，阅读替换提示并确认恢复，核对日记数量、日期、照片和目标。
 6. 重新设置 PIN、生物识别、通知权限及自动备份目录；这些设备安全设置/授权不随备份迁移。重新确认语言和提醒设置。
 

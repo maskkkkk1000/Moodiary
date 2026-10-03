@@ -14,7 +14,7 @@
 
 ## [0.2.0] - 2026-10-03
 
-第一轮迭代源码版本；GitHub APK 发布状态以发行页为准。完整验证与边界见 `docs/ITERATION_1.md`。
+第一轮迭代源码于 2026-10-03 完成验收；发行签名 APK 于 2026-10-04（北京时间）[发布到 GitHub](https://github.com/maskkkkk1000/Moodiary/releases/tag/v0.2.0)，同时提供 SHA-256 校验文件。完整验证与边界见 `docs/ITERATION_1.md`。
 
 ### Added
 
