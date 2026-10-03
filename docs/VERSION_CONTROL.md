@@ -4,7 +4,7 @@
 
 使用 Semantic Versioning `MAJOR.MINOR.PATCH`：PATCH 为修复及小型兼容调整；MINOR 为新功能、明显增强和向后兼容的数据升级；MAJOR 为重大不兼容的数据格式或核心行为变化。即使在 0.x 阶段，也必须明确记录不兼容变化及安全升级路径。不能仅因功能多而标记 1.0。
 
-Android `versionCode` 是安装升级序号，每次分发新版本单调增加；`versionName` 是应用版本。Room schema 和备份格式分别独立管理。当前为 app 0.1.0 / versionCode 1 / Room 1。
+Android `versionCode` 是安装升级序号，每次分发新版本单调增加；`versionName` 是应用版本。Room schema 和备份格式分别独立管理。当前为 app 0.2.0 / versionCode 2 / Room 2 / backup format 2（读取 1/2）。
 
 初始已有实现作为一次真实基线提交 `chore: establish v0.1.0 baseline`，不补造历史。以后一个提交对应一个经过验证的逻辑阶段，使用 Conventional Commits：`feat:`、`fix:`、`perf:`、`test:`、`refactor:`、`docs:`、`chore:`；不混入无关文件。
 
@@ -23,6 +23,7 @@ Android `versionCode` 是安装升级序号，每次分发新版本单调增加�
 1. 确认 Git 根目录、branch、remote、status 和历史，避免误操作父目录仓库。
 2. 检查工作区 diff、暂存区完整 diff 和 `git diff --cached --name-status`，只暂存本阶段文件。
 3. 扫描密钥、token、OAuth 文件、签名文件、真实日记/照片/备份及本地构建产物。`.gitignore` 不能识别源代码里硬编码的密钥，必须审查内容。
+   可运行 `scripts/check-staged-files.ps1` 扫描暂存快照；脚本只报告文件名，不能替代完整 diff 人工审查。
 4. 构建项目；核心逻辑修改运行相关测试；失败则先修复。记录设备与未验证边界。
 5. 提交后检查 status、commit hash，保持 README、CHANGELOG 和 ROADMAP 一致。
 

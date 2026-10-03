@@ -6,7 +6,7 @@ Read `Moodiary_Codex_Master_Plan.md` as the product specification. The user's la
 
 - Inspect repository root, branch, remotes, status, history and sensitive/unrelated files before Git/GitHub operations. Preserve all existing history.
 - Follow `docs/VERSION_CONTROL.md`, `docs/ROADMAP.md` and `docs/RELEASE_CHECKLIST.md`.
-- Current app version is **0.1.0**, versionCode **1**; Room schema is independently **1**. Never call this V1.0 simply because many features exist.
+- Current app version is **0.2.0**, versionCode **2**; Room schema is independently **2**, backup format **2** (reads 1/2). Never call this V1.0 simply because many features exist.
 - Commit each coherent, independently verified phase using Conventional Commits. Do not invent historical commits, combine unrelated phases, or mechanically split tiny changes.
 - Before every commit inspect the full diff and staged file list, scan for sensitive information, confirm the app builds and run tests relevant to core changes. Never commit failed or unverified production changes to main.
 - Use `main` for verified stable states, `feature/*` for features, `fix/*` for fixes, `release/*` for release preparation. Large work must use a separate branch and be verified before merging.

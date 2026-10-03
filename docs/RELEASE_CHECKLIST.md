@@ -1,6 +1,6 @@
 # 发布检查单
 
-每个发布候选复制本清单并记录 commit、日期、工具链、设备、结果及阻塞。不能用旧测试报告替代代码变更后的验证。0.1.0 的实际记录见 [BASELINE_VERIFICATION](BASELINE_VERIFICATION.md)。
+每个发布候选复制本清单并记录 commit、日期、工具链、设备、结果及阻塞。不能用旧测试报告替代代码变更后的验证。0.1.0 的实际记录见 [BASELINE_VERIFICATION](BASELINE_VERIFICATION.md)，0.2.0 见 [ITERATION_1](ITERATION_1.md)。
 
 - [ ] 检查工作区、分支、远端、历史和完整 diff，排除无关改动。
 - [ ] Debug build：`:app:assembleDebug`。
