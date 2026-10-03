@@ -1,0 +1,30 @@
+<resources>
+    <string name="binary_restore_preview">小目标：%1$d 个；每日结果：%2$d 条。</string>
+    <string name="binary_title">今日小目标</string>
+    <string name="binary_intro">今天做到没有？简单记录，未记录不等于失败。</string>
+    <string name="binary_create">新建小目标</string>
+    <string name="binary_edit">编辑小目标</string>
+    <string name="binary_name">目标名称</string>
+    <string name="binary_description">描述（可选）</string>
+    <string name="binary_save">保存小目标</string>
+    <string name="binary_date">记录日期（YYYY-MM-DD）</string>
+    <string name="binary_invalid_date">请输入不晚于今天的有效日期。已有的未来结果仍可修改或清除。</string>
+    <string name="binary_tap_hint">再次点击已选结果，可取消为未记录。</string>
+    <string name="binary_today">今天</string>
+    <string name="binary_active">使用中</string>
+    <string name="binary_archived">已归档</string>
+    <string name="binary_success">成功</string>
+    <string name="binary_failed">未做到</string>
+    <string name="binary_unset">未记录</string>
+    <string name="binary_archive">归档</string>
+    <string name="binary_restore">恢复</string>
+    <string name="binary_delete">删除</string>
+    <string name="binary_delete_title">删除这个小目标？</string>
+    <string name="binary_delete_hint">仅没有记录的小目标可以删除。已有记录时，请归档以保留历史。</string>
+    <string name="binary_move_up">上移</string>
+    <string name="binary_move_down">下移</string>
+    <string name="binary_empty">还没有小目标</string>
+    <string name="binary_empty_hint">创建一个今天想做到的小事情吧。</string>
+    <string name="binary_empty_archive">没有已归档的小目标</string>
+    <string name="binary_statistics">查看统计</string>
+</resources>

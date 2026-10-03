@@ -35,6 +35,21 @@ import javax.inject.Inject
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     val recoveryRequired = restoreState.recoveryRequired
+    suspend fun recoverableEditorRoute(): String {
+        val snapshot = repository.snapshot()
+        val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
+        val id = drafts.candidates().firstOrNull { (id, text) ->
+            runCatching {
+                val draft = json.decodeFromString<app.moodiary.feature.entryeditor.EntryDraft>(text)
+                draft.id == id && draft.loaded && (id == 0L || snapshot.entries.any { it.id == id }) &&
+                    (draft.note.isNotBlank() || draft.moodId != null || draft.activities.isNotEmpty() || draft.photoPaths.isNotEmpty()) &&
+                    java.time.LocalDateTime.parse(draft.localDateTime) != null &&
+                    (draft.moodId == null || snapshot.moods.any { it.id == draft.moodId }) &&
+                    draft.photoPaths.all { app.moodiary.domain.DataValidation.isManagedPhotoPath(it) && photos.file(it).isFile }
+            }.getOrDefault(false)
+        }?.first ?: 0L
+        return "editor/$id?date="
+    }
     suspend fun cleanPhotos(removedEntryPhotos: Set<String> = emptySet()) = repository.withExclusive {
         repository.requireAvailable()
         photos.cleanUnreferenced(repository.snapshot().photos.map { it.localPath }.toSet() + drafts.photoReferences(), removedEntryPhotos)

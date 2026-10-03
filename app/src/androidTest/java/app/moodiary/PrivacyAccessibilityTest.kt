@@ -15,6 +15,8 @@ class PrivacyAccessibilityTest {
     private fun waitFor(text: String) = ui.waitUntil(30_000) { ui.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty() }
 
     @Test fun pinSetupSurvivesActivityRecreationAndUnlocksWithCorrectPin() {
+        ui.waitUntil(30_000) { ui.onAllNodesWithTag("nav_entries").fetchSemanticsNodes().isNotEmpty() }
+        ui.onNodeWithTag("nav_entries").performClick()
         waitFor("Your moments")
         val store = PinStore(ui.activity)
         check(!store.enabled) { "This test requires a dedicated device without an existing diary PIN" }

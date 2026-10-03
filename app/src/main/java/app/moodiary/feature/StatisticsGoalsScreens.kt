@@ -79,7 +79,7 @@ private fun Double?.formatted(locale: Locale) = this?.let { "%.2f".format(locale
 }
 
 @OptIn(ExperimentalLayoutApi::class)
-@Composable fun GoalsScreen(data: JournalData, vm: JournalViewModel) {
+@Composable fun GoalsScreen(data: JournalData, vm: JournalViewModel, targetId: Long = 0L) {
     val locale = LocalConfiguration.current.locales[0]
     val context = LocalContext.current
     val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
@@ -88,6 +88,7 @@ private fun Double?.formatted(locale: Locale) = this?.let { "%.2f".format(locale
     var dateText by rememberSaveable { mutableStateOf(LocalDate.now().toString()) }
     val date = runCatching { LocalDate.parse(dateText) }.getOrNull()
     val today = LocalDate.now()
+    val listState = androidx.compose.foundation.lazy.rememberLazyListState()
     val goalMetrics by produceState<Map<Long, GoalMetrics>?>(null, data.goals, data.schedules, data.completions, today) {
         value = null
         value = withContext(Dispatchers.Default) {
@@ -96,7 +97,13 @@ private fun Double?.formatted(locale: Locale) = this?.let { "%.2f".format(locale
             data.goals.associate { goal -> goal.id to GoalEngine.metrics(goal, schedules[goal.id].orEmpty(), completions[goal.id].orEmpty(), today) }
         }
     }
-    LazyColumn(contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    LaunchedEffect(targetId, goalMetrics != null) {
+        if (targetId > 0 && goalMetrics != null) {
+            val position = data.goals.indexOfFirst { it.id == targetId }
+            if (position >= 0) listState.scrollToItem(position + 2)
+        }
+    }
+    LazyColumn(state = listState, contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item { Text(stringResource(R.string.ui_small_steps), style = MaterialTheme.typography.headlineLarge); Button({ adding = true }) { Text(stringResource(R.string.ui_new_goal)) } }
         item { OutlinedTextField(dateText, { dateText = it }, label = { Text(stringResource(R.string.ui_completion_date_yyyy_mm_dd)) }, isError = date == null); Text(stringResource(R.string.ui_daily_streaks_count_scheduled_days_weekly_count_streaks_coun), style = MaterialTheme.typography.bodySmall) }
         if (data.goals.isEmpty()) item { Text(stringResource(R.string.ui_choose_something_you_would_like_to_make_time_for)) }

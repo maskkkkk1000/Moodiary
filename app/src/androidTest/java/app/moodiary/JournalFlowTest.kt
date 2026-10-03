@@ -27,8 +27,6 @@ class JournalFlowTest {
     }
 
     @Test fun createEditSearchDeleteAndCalendar() {
-        waitFor("Your moments")
-        ui.onNodeWithTag("nav_editor").performClick()
         waitFor("A moment to remember")
         ui.onNodeWithTag("mood_1").performClick()
         editorScrollTo("Your note")

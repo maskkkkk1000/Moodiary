@@ -35,6 +35,14 @@ import javax.inject.Singleton
     } }
     suspend fun delete(id: Long) = withContext(Dispatchers.IO) { mutex.withLock { file(id).delete() } }
 
+    /** Recovery inspects newest drafts without deleting unreadable or older user work. */
+    suspend fun candidates(): List<Pair<Long, String>> = withContext(Dispatchers.IO) { mutex.withLock {
+        val pattern = Regex("entry-([0-9]+)\\.json(?:\\.bak)?")
+        directory.listFiles().orEmpty().sortedByDescending { it.lastModified() }
+            .mapNotNull { pattern.matchEntire(it.name)?.groupValues?.get(1)?.toLongOrNull() }.distinct()
+            .mapNotNull { id -> runCatching { id to file(id).openRead().bufferedReader().use { it.readText() } }.getOrNull() }
+    } }
+
     /** Cleanup must preserve every durable draft, regardless of its age. Fail closed on corruption:
      * an unreadable draft may still own photos, so callers must abort cleanup rather than discard it.
      */

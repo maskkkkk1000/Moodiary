@@ -31,7 +31,7 @@ import java.time.LocalDate
 
 @Composable fun MoreScreen(open: (String) -> Unit) {
     val sections = listOf(
-        stringResource(R.string.journal_your_journal) to listOf("goals" to stringResource(R.string.journal_goals), "moods" to stringResource(R.string.journal_moods), "activities" to stringResource(R.string.journal_activities), "groups" to stringResource(R.string.journal_groups), "templates" to stringResource(R.string.journal_templates), "important" to stringResource(R.string.journal_important), "achievements" to stringResource(R.string.journal_achievements)),
+        stringResource(R.string.journal_your_journal) to listOf("goals" to stringResource(R.string.journal_goals), "binary_goals" to stringResource(R.string.iter_binary_goals), "moods" to stringResource(R.string.journal_moods), "activities" to stringResource(R.string.journal_activities), "groups" to stringResource(R.string.journal_groups), "templates" to stringResource(R.string.journal_templates), "important" to stringResource(R.string.journal_important), "achievements" to stringResource(R.string.journal_achievements)),
         stringResource(R.string.journal_your_preferences) to listOf("reminders" to stringResource(R.string.journal_reminders), "appearance" to stringResource(R.string.journal_appearance), "language" to stringResource(R.string.journal_language), "privacy" to stringResource(R.string.journal_privacy)),
         stringResource(R.string.journal_your_data) to listOf("backup" to stringResource(R.string.journal_backup), "export" to stringResource(R.string.journal_export), "audit" to stringResource(R.string.journal_audit), "about" to stringResource(R.string.journal_about))
     )
