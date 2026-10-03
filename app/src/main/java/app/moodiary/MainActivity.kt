@@ -166,7 +166,7 @@ private fun androidx.navigation.NavHostController.openJournalDestination(target:
             else NavHost(nav, "entries") {
                 composable("entries") { EntriesScreen(data, vm) { nav.navigate("editor/$it?date=") } }
                 composable("calendar") { CalendarScreen(data, vm, preferences.aggregation, { nav.navigate("editor/$it?date=") }, { nav.navigate("editor/0?date=$it") }) }
-                composable("statistics") { StatisticsScreen(data) }
+                composable("statistics") { StatisticsScreen() }
                 composable("more") { MoreScreen { nav.navigate(it) } }
                 composable("editor/{id}?date={date}", arguments = listOf(navArgument("id") { type = NavType.LongType }, navArgument("date") { type = NavType.StringType; defaultValue = "" })) { entry -> EditorScreen(entry.arguments?.getLong("id") ?: 0, entry.arguments?.getString("date")?.takeIf { it.isNotEmpty() }, data, { nav.popBackStack() }) }
                 listOf("moods", "activities", "groups", "templates", "important").forEach { kind -> composable(kind) { ManagementScreen(kind, data, vm) } }
